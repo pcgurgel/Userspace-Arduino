@@ -1,0 +1,4 @@
+##############################################################
+
+userspace.name=Linux-Virtual
+userspace.build.core=virtual
