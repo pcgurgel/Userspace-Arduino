@@ -1,8 +1,10 @@
 ##############################################################
 
-userspace.name=Linux-Virtual
+userspace.name=Linux-virtual
 userspace.build.core=virtual
-
+userspace.build.variant=standard
 ##############################################################
-beaglebone-black.name=BeagleBone Black
-beaglebone-black.core=beaglebone-black
+black.name=BeagleBone Black
+black.build.core=virtual
+black.build.variant=standard
+#############################################################
