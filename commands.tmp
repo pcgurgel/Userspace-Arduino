@@ -1,0 +1,3 @@
+ls
+ put create_file.c.bin
+ exit
