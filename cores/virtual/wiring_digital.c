@@ -24,24 +24,67 @@
   $Id: wiring.c 248 2007-02-03 15:36:30Z mellis $
 */
 
-#include <inttypes.h>
+#include "wiring_digital.h"
+#include "Arduino.h"
+
 #include <stdio.h>
-#include <X11/Xlib.h>
-#include <X11/XKBlib.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <unistd.h>
+#include <fcntl.h>
+
 
 void pinMode(uint8_t pin, uint8_t mode)
 {
-printf("pinMode() called with pin=%d and mode=%d\n",pin,mode);
+	int fd;
+	char buf[4];
+
+	if(g_APinDescription[pin].pinType == GPIO) {
+
+		snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR  "/gpio%d/direction", g_APinDescription[pin].gpioPin);
+		fd = open(buf, O_WRONLY);
+		if (fd < 0) {
+			perror("pinMode");
+			return;
+		}
+		if (mode == 1)
+			write(fd, "out", 4);
+		else
+			write(fd, "in", 3);
+
+		close(fd);
+	} else {
+		printf("Pin %d is not configured as GPIO!/n", pin);
+		return;
+	}
 }
 
-static void turnOffPWM(uint8_t timer)
-{
-printf("turnOffPWM() called!\n");
-}
 
 void digitalWrite(uint8_t pin, uint8_t val)
 {
-printf("digitalWrite() called with pin=%d and val=%d\n",pin,val);
+
+	int fd;
+	char buf[4];
+	if(g_APinDescription[pin].pinType == GPIO) {
+		snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d/value", g_APinDescription[pin].gpioPin);
+
+		fd = open(buf, O_WRONLY);
+		if (fd < 0) {
+			perror("digitalWrite");
+			return;
+		}
+		if (val==0)
+			write(fd, "0", 2);
+		else
+			write(fd, "1", 2);
+
+		close(fd);
+	} else {
+		printf("Pin %d is not configured as GPIO!/n", pin);
+		return;
+	}
+
 #if 0
 if (pin==14) {
     int xkbmajor = XkbMajorVersion, xkbminor = XkbMinorVersion;
@@ -75,6 +118,52 @@ if (pin==14) {
 
 int digitalRead(uint8_t pin)
 {
-	printf("digitalRead() called for pin=%d and returning 0\n",pin);
+	int fd;
+	char buf[4];
+	char ch;
+	int value;
+	if(g_APinDescription[pin].pinType == GPIO) {
+
+		snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d/value", g_APinDescription[pin].gpioPin);
+
+		fd = open(buf, O_RDONLY);
+		if (fd < 0) {
+			perror("digitalRead");
+			return -1;
+		}
+
+		read(fd, &ch, 1);
+
+		if (ch != '0') {
+			value = 1;
+		} else {
+			value = 0;
+		}
+
+		close(fd);
+		return value;
+	} else {
+		printf("Pin %d is not configured as GPIO!/n", pin);
+		return -1;
+	}
+
+}
+
+int export_gpio(uint32_t pin)
+{
+	int fd, len;
+	char buf[4];
+
+	fd = open(SYSFS_GPIO_DIR "/export", O_WRONLY);
+	if (fd < 0) {
+		perror("gpio/export");
+		return fd;
+	}
+
+	len = snprintf(buf, sizeof(buf), "%d", pin);
+	printf("Writing to gpio/export: %d\n", pin);
+	write(fd, buf, len);
+	close(fd);
+
 	return 0;
 }

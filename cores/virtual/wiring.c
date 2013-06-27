@@ -39,16 +39,13 @@ unsigned long micros() {
 
 void delay(unsigned long ms)
 {
-	usleep(ms*1000);
+    printf("delay() called!\n");
+    //usleep(ms*1000);
 }
 
 /* Delay for the given number of microseconds.  Assumes a 8 or 16 MHz clock. */
 void delayMicroseconds(unsigned int us)
 {
-	usleep(us);
-}
-
-void init()
-{
-	printf("init() called!\n");
+    printf("delayMicrosceonds called!\n");
+    //usleep(us);
 }
