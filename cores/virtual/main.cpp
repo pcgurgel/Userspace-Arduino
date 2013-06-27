@@ -3,7 +3,7 @@
 int main(void)
 {
 	init();
-
+    printf("Returned to main!\n Calling setup() and init()...\n");
 	setup();
     
 	for (;;)
@@ -11,4 +11,3 @@ int main(void)
         
 	return 0;
 }
-
