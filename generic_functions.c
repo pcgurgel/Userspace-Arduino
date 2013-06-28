@@ -57,8 +57,10 @@ void main()
 {
 		char ch[MAX_BUF];
 		int i;
-		//sysfs_read("/sys/class/leds/beaglebone:green:usr0/","brightness");
+		gpio_unexport(26);
+		gpio_export(26);
+		sysfs_write("/sys/class/gpio/gpio26/","direction","out");
+		sysfs_write("/sys/class/gpio/gpio26/","value","0");
 		//sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","1");
-//		gpio_export(14);
-		gpio_unexport(14);
+
 }
