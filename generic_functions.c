@@ -12,15 +12,16 @@ int sysfs_read(char* path, char* filename)
 		FILE* fd;
 		char buf[MAX_BUF];
 		int i;
-		int value;
+		char value[MAX_BUF];
 		snprintf(buf, sizeof(buf),"%s%s",path,filename);
 		fd=fopen(buf,"r");
-		fscanf(fd,"%d",&value);
+		fgets(value,10,fd);
+		printf("%s",value);
 		fclose(fd);
-		return value;
+
 }
 
-int sysfs_write(char* path, char* filename,int value)
+int sysfs_write(char* path, char* filename,char* value)
 {
 
 		FILE* fd;
@@ -28,15 +29,36 @@ int sysfs_write(char* path, char* filename,int value)
 		int i;
 		snprintf(buf, sizeof(buf),"%s%s",path,filename);
 		fd=fopen(buf,"w");
-		fprintf(fd,"%d",value);
+		fprintf(fd,"%s",value);
+		printf("%s",value);
 		fclose(fd);
 
 }
+int gpio_export(int gpio_pin)
+{
+		FILE* fd;
+		int i;
+		fd=fopen("/sys/class/gpio/export","w");
+		fprintf(fd,"%d",gpio_pin);
+		fclose(fd);
+		return gpio_pin;
+}
 
+int gpio_unexport(int gpio_pin)
+{
+		FILE* fd;
+		int i;
+		fd=fopen("/sys/class/gpio/unexport","w");
+		fprintf(fd,"%d",gpio_pin);
+		fclose(fd);
+		return gpio_pin;
+}
 void main()
 {
 		char ch[MAX_BUF];
 		int i;
-		//printf("%d",sysfs_read("/sys/class/leds/beaglebone:green:usr0/","brightness"));
-		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness",1);
+		//sysfs_read("/sys/class/leds/beaglebone:green:usr0/","brightness");
+		//sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","1");
+//		gpio_export(14);
+		gpio_unexport(14);
 }
