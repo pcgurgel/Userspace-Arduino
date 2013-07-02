@@ -121,7 +121,7 @@ void init( void )
 	if(g_APinDescription[i].pinType != ANALOG)
 		g_APinDescription[i].pinOffset = g_APinDescription[i].headerPin * 4;
 	if(g_APinDescription[i].pinType == GPIO)
-		export_gpio(g_APinDescription[i].gpioPin);
+		gpio_export(g_APinDescription[i].gpioPin);
   }
 }
 

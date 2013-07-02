@@ -37,23 +37,14 @@
 
 void pinMode(uint8_t pin, uint8_t mode)
 {
-	int fd;
-	char buf[4];
+	char buf[25];
 
 	if(g_APinDescription[pin].pinType == GPIO) {
-
-		snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR  "/gpio%d/direction", g_APinDescription[pin].gpioPin);
-		fd = open(buf, O_WRONLY);
-		if (fd < 0) {
-			perror("pinMode");
-			return;
-		}
+		snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d/", g_APinDescription[pin].gpioPin);
 		if (mode == 1)
-			write(fd, "out", 4);
+			sysfs_write(buf, "direction", "out");
 		else
-			write(fd, "in", 3);
-
-		close(fd);
+			sysfs_write(buf, "direction", "in");
 	} else {
 		printf("Pin %d is not configured as GPIO!/n", pin);
 		return;
@@ -64,22 +55,20 @@ void pinMode(uint8_t pin, uint8_t mode)
 void digitalWrite(uint8_t pin, uint8_t val)
 {
 
-	int fd;
-	char buf[4];
+	char buf[40];
+
 	if(g_APinDescription[pin].pinType == GPIO) {
-		snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d/value", g_APinDescription[pin].gpioPin);
-
-		fd = open(buf, O_WRONLY);
-		if (fd < 0) {
-			perror("digitalWrite");
-			return;
-		}
+		snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d/", g_APinDescription[pin].gpioPin);
 		if (val==0)
-			write(fd, "0", 2);
+			sysfs_write(buf, "value", "0");
 		else
-			write(fd, "1", 2);
-
-		close(fd);
+			sysfs_write(buf, "value", "1");
+	} else if(g_APinDescription[pin].pinType == LED) {
+		snprintf(buf, sizeof(buf), SYSFS_LED_DIR "/beaglebone:green:usr%d/", g_APinDescription[pin].gpioPin - 21);
+		if(val == 0)
+			sysfs_write(buf, "brightness", "0");
+		else
+			sysfs_write(buf, "brightness", "255");
 	} else {
 		printf("Pin %d is not configured as GPIO!/n", pin);
 		return;
@@ -125,7 +114,6 @@ int digitalRead(uint8_t pin)
 	if(g_APinDescription[pin].pinType == GPIO) {
 
 		snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d/value", g_APinDescription[pin].gpioPin);
-
 		fd = open(buf, O_RDONLY);
 		if (fd < 0) {
 			perror("digitalRead");
@@ -149,21 +137,3 @@ int digitalRead(uint8_t pin)
 
 }
 
-int export_gpio(uint32_t pin)
-{
-	int fd, len;
-	char buf[4];
-
-	fd = open(SYSFS_GPIO_DIR "/export", O_WRONLY);
-	if (fd < 0) {
-		perror("gpio/export");
-		return fd;
-	}
-
-	len = snprintf(buf, sizeof(buf), "%d", pin);
-	printf("Writing to gpio/export: %d\n", pin);
-	write(fd, buf, len);
-	close(fd);
-
-	return 0;
-}

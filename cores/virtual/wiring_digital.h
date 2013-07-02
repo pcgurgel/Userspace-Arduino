@@ -62,8 +62,6 @@ extern void digitalWrite( uint8_t , uint8_t  ) ;
  */
 extern int digitalRead( uint8_t  ) ;
 
-extern int export_gpio( uint32_t ) ;
-
 #ifdef __cplusplus
 }
 #endif

@@ -5,6 +5,7 @@
 #include <string.h>
 #include <math.h>
 #include <inttypes.h>
+#include "sysfs.h"
 
 #ifdef __cplusplus
 extern "C"{
@@ -34,12 +35,14 @@ typedef struct _PinDescription
 /* Pins table to be instanciated into variant.cpp */
 extern PinDescription g_APinDescription[] ;
 
-#define SYSFS_GPIO_DIR "/sys/class/gpio"
+#define SYSFS_GPIO_DIR "/sys/class/gpio/"
+#define SYSFS_LED_DIR "/sys/class/leds/"
 
 #ifdef __cplusplus
 }
 #include "HardwareSerial.h"
 #endif
+
 
 #include "wiring.h"
 #include "wiring_digital.h"
