@@ -33,6 +33,8 @@ int sysfs_read(char* , char*);
 int sysfs_write(char*, char* ,char*);
 int gpio_export(uint32_t);
 int gpio_unexport(uint32_t);
+void delay(unsigned long);
+void delayMicroseconds(unsigned int);
 
 #ifdef __cplusplus
 } // extern "C"
