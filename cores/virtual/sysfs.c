@@ -24,49 +24,44 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include "sysfs.h"
 
-
-int sysfs_read(char* path, char* filename)
-{
+int sysfs_read(char* path, char* filename) {
 		FILE* fd;
 		char buf[MAX_BUF];
-		int i;
 		char value[MAX_BUF];
 		snprintf(buf, sizeof(buf),"%s%s",path,filename);
 		fd=fopen(buf,"r");
+        if(!fd)
+            return -1;
 		fgets(value,10,fd);
 		printf("%s",value);
 		fclose(fd);
-
+        return 0;
 }
 
-int sysfs_write(char* path, char* filename,char* value)
-{
-
+int sysfs_write(char* path, char* filename,char* value) {
 		FILE* fd;
 		char buf[MAX_BUF];
-		int i;
 		snprintf(buf, sizeof(buf),"%s%s",path,filename);
 		fd=fopen(buf,"w");
+        if(!fd)
+            return -1;
 		fprintf(fd,"%s",value);
 		printf("%s",value);
 		fclose(fd);
-
+        return 0;
 }
-int gpio_export(int gpio_pin)
-{
+int gpio_export(uint32_t gpio_pin) {
 		FILE* fd;
-		int i;
 		fd=fopen("/sys/class/gpio/export","w");
 		fprintf(fd,"%d",gpio_pin);
 		fclose(fd);
 		return gpio_pin;
 }
 
-int gpio_unexport(int gpio_pin)
-{
+int gpio_unexport(uint32_t gpio_pin) {
 		FILE* fd;
-		int i;
 		fd=fopen("/sys/class/gpio/unexport","w");
 		fprintf(fd,"%d",gpio_pin);
 		fclose(fd);

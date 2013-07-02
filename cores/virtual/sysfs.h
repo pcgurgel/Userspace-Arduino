@@ -22,12 +22,7 @@
 
 #ifndef Sysfs_h
 #define Sysfs_h
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-
+#include <inttypes.h>
 #ifdef __cplusplus
 extern "C"{
 #endif
@@ -36,8 +31,8 @@ extern "C"{
 
 int sysfs_read(char* , char*);
 int sysfs_write(char*, char* ,char*);
-int gpio_export(int);
-int gpio_unexport(int);
+int gpio_export(uint32_t);
+int gpio_unexport(uint32_t);
 
 #ifdef __cplusplus
 } // extern "C"
