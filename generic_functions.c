@@ -5,7 +5,7 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
-
+#include <time.h>
 
 int sysfs_read(char* path, char* filename)
 {
@@ -53,14 +53,39 @@ int gpio_unexport(int gpio_pin)
 		fclose(fd);
 		return gpio_pin;
 }
-void main()
+
+
+void delay(unsigned long ms)
+{
+  usleep(ms*1000);
+}
+void delayMicroseconds(unsigned int us)
+{
+  usleep(us);
+}
+
+int main()
 {
 		char ch[MAX_BUF];
 		int i;
-		gpio_unexport(26);
-		gpio_export(26);
-		sysfs_write("/sys/class/gpio/gpio26/","direction","out");
-		sysfs_write("/sys/class/gpio/gpio26/","value","0");
-		//sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","1");
+		/* gpio_unexport(26); */
+		/* gpio_export(26); */
+		/* sysfs_write("/sys/class/gpio/gpio26/","direction","out"); */
+		/* sysfs_write("/sys/class/gpio/gpio26/","value","0"); */
+		/* sysfs_write("/sys/class/gpio/gpio26/","value","1"); */
+				
+		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","1");
+		delay(1000);
+		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","0");
+		delay(1000);
+		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","1");
+		delay(1000);
+		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","0");
+		delay(1000);
+		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","1");
+		delay(1000);
+		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","0");
+		delay(1000);
+		
 
 }

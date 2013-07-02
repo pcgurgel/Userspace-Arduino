@@ -16,7 +16,7 @@ FILE=$1
 EXECUTABLE=$FILE.bin
 echo $FILE 
 echo $EXECUTABLE
-arm-none-linux-gnueabi-gcc-4.6.3 -static $FILE -o $EXECUTABLE
+arm-angstrom-linux-gnueabi-gcc $FILE -o $EXECUTABLE
 
  echo "ls
  put "$EXECUTABLE"
