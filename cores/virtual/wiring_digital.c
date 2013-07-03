@@ -37,14 +37,14 @@
 
 void pinMode(uint8_t pin, uint8_t mode)
 {
-	char buf[25];
+	char buf[50];
 
 	if(g_APinDescription[pin].pinType == GPIO) {
 		snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d/", g_APinDescription[pin].gpioPin);
 		if (mode == 1)
-			sysfs_write(buf, "direction", "out");
+			sysfs_write(buf, "direction", 1);
 		else
-			sysfs_write(buf, "direction", "in");
+			sysfs_write(buf, "direction", 0);
 	} else {
 		printf("Pin %d is not configured as GPIO!/n", pin);
 		return;
@@ -55,25 +55,25 @@ void pinMode(uint8_t pin, uint8_t mode)
 void digitalWrite(uint8_t pin, uint8_t val)
 {
 
-	char buf[40];
-
+	char buf[100];
 	if(g_APinDescription[pin].pinType == GPIO) {
 		snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d/", g_APinDescription[pin].gpioPin);
-		if (val==0)
-			sysfs_write(buf, "value", "0");
+        printf("GPIO: %s\n", buf);
+        if (val==0)
+			sysfs_write(buf, "value", 0);
 		else
-			sysfs_write(buf, "value", "1");
+			sysfs_write(buf, "value", 1);
 	} else if(g_APinDescription[pin].pinType == LED) {
-		snprintf(buf, sizeof(buf), SYSFS_LED_DIR "/beaglebone:green:usr%d/", g_APinDescription[pin].gpioPin - 21);
+		snprintf(buf, sizeof(buf), SYSFS_LED_DIR "/beaglebone:green:usr%d/", (g_APinDescription[pin].headerPin - 21));
+        printf("LED: %s\n", buf);
 		if(val == 0)
-			sysfs_write(buf, "brightness", "0");
+			sysfs_write(buf, "brightness", 0);
 		else
-			sysfs_write(buf, "brightness", "255");
+			sysfs_write(buf, "brightness", 255);
 	} else {
 		printf("Pin %d is not configured as GPIO!/n", pin);
 		return;
 	}
-
 #if 0
 if (pin==14) {
     int xkbmajor = XkbMajorVersion, xkbminor = XkbMinorVersion;

@@ -58,7 +58,7 @@ extern "C" {
 /*
  * Pins descriptions
  */
-extern PinDescription g_APinDescription[]=
+PinDescription g_APinDescription[]=
 {
   // The offsets can be derived from userspace pin numbers defined in the header file
   // 0 .. 13 - Digital pins
