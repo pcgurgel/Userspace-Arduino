@@ -75,17 +75,17 @@ int main()
 		/* sysfs_write("/sys/class/gpio/gpio26/","value","1"); */
 				
 		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","1");
-		delay(1000);
+		delayMicroseconds(1000000);
 		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","0");
-		delay(1000);
+		delayMicroseconds(1000000);
 		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","1");
-		delay(1000);
+		delayMicroseconds(1000000);
 		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","0");
-		delay(1000);
+		delayMicroseconds(1000000);
 		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","1");
-		delay(1000);
+		delayMicroseconds(1000000);
 		sysfs_write("/sys/class/leds/beaglebone:green:usr0/","brightness","0");
-		delay(1000);
-		
+		delayMicroseconds(1000000);
 
+		
 }

@@ -7,23 +7,24 @@
 # ssh $USERNAME@$IP
 
 # COMMAND LINE ARGUMENTS
-# ./send_exec.sh source.c
+# ./send_exec.sh arduinofile.ino
 
 # A bash script to helloworld.bin to beagleboard and return the output
 IP="192.168.7.2"
 USERNAME="root"
 FILE=$1
-EXECUTABLE=$FILE.bin
-echo $FILE 
-echo $EXECUTABLE
-arm-angstrom-linux-gnueabi-gcc $FILE -o $EXECUTABLE
+FILE=${FILE%%\.*}
+#echo $FILE
+EXECUTABLE=$FILE.elf
+#echo $EXECUTABLE
+make
 
  echo "ls
- put "$EXECUTABLE"
+ put build-userspace/"$EXECUTABLE"
  exit" > commands.tmp
 
   sftp -b commands.tmp $USERNAME@$IP
-  ssh $USERNAME@$IP -t "./"$EXECUTABLE
+  ssh $USERNAME@$IP #-t "./"$EXECUTABLE
 
 
 
