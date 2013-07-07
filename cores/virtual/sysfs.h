@@ -29,14 +29,16 @@ extern "C"{
 
 #define MAX_BUF 64
 
-int sysfs_read(const char* , const char*);
+char* sysfs_read(const char* path, const char* filename) 
 int sysfs_write(const char*, const char* , int);
 int gpio_export(uint32_t);
 int gpio_unexport(uint32_t);
+int gpio_setdirection(uint32_t , const char*);
 void delay(unsigned long);
 void delayMicroseconds(unsigned int);
+int gpio_setdirection(int, const char*);
 
 #ifdef __cplusplus
-} // extern "C"
+				} // extern "C"
 #endif
 #endif
