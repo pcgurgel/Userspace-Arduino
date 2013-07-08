@@ -28,7 +28,7 @@
 #include "sysfs.h"
 #include <time.h>
 
-char* sysfs_read(const char* path, const char* filename) 
+char* sysfs_read(const char* path, const char* filename)
 {
 		FILE* fd;
 		char buf[MAX_BUF];
@@ -49,7 +49,7 @@ char* sysfs_read(const char* path, const char* filename)
         return temp;
 }
 
-int sysfs_write(const char* path, const char* filename,int value) 
+int sysfs_write(const char* path, const char* filename,int value)
 {
 		FILE* fd;
 		char buf[MAX_BUF];
@@ -63,7 +63,7 @@ int sysfs_write(const char* path, const char* filename,int value)
 		fclose(fd);
 		return 0;
 }
-int gpio_export(int gpio_pin) 
+int gpio_export(uint32_t gpio_pin)
 {
 		FILE* fd;
 		fd=fopen("/sys/class/gpio/export","w");
@@ -77,7 +77,7 @@ int gpio_export(int gpio_pin)
 		return gpio_pin;
 }
 
-int gpio_unexport(int gpio_pin) 
+int gpio_unexport(uint32_t gpio_pin)
 {
 		FILE* fd;
 		fd=fopen("/sys/class/gpio/unexport","w");
@@ -99,7 +99,7 @@ void delayMicroseconds(unsigned int us)
 {
 		usleep(us);
 }
-int gpio_setdirection(int gpio_pin, const char* direction)
+int gpio_setdirection(uint32_t gpio_pin, const char* direction)
 {
 		FILE* fd;
 		char buf[MAX_BUF];
