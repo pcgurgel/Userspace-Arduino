@@ -25,7 +25,7 @@
 */
 
 #include "wiring_digital.h"
-#include "Arduino.h"
+#include "linux-virtual.h"
 
 #include <stdio.h>
 #include <stdlib.h>
