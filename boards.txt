@@ -2,9 +2,9 @@
 
 userspace.name=Linux-virtual
 userspace.build.core=virtual
-userspace.build.variant=beaglebone
+userspace.build.variant=standard
 ##############################################################
 black.name=BeagleBone Black
 black.build.core=virtual
-black.build.variant=standard
+black.build.variant=beaglebone
 #############################################################
