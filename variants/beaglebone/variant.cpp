@@ -75,7 +75,7 @@ PinDescription g_APinDescription[]=
   // 5
   { P9_16,   51,  PWM  }, // PWM1B
   { P9_42A,   7,  PWM  }, // PWM0
-  { P8_19,   19,  PWM  }, // PWM2A
+  { P8_19,   22,  GPIO  }, // PWM2A
 
   //8
   { P9_19,   13,  I2C  }, // I2C2_SCL

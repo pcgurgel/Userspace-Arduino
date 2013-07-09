@@ -27,7 +27,7 @@
  *        Headers
  *----------------------------------------------------------------------------*/
 
-#include "Arduino.h"
+#include "virtual_main.h"
 #ifdef __cplusplus
 //#include "UARTClass.h"
 //#include "USARTClass.h"
@@ -36,13 +36,6 @@
 #ifdef __cplusplus
 extern "C"{
 #endif // __cplusplus
-
-/**
- * Libc porting layers
- */
-#if defined (  __GNUC__  ) /* GCC CS3 */
-#    include <syscalls.h> /** RedHat Newlib minimal stub */
-#endif
 
 /*----------------------------------------------------------------------------
  *        Pins
