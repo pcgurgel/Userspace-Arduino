@@ -29,7 +29,7 @@ extern "C"{
 
 #define MAX_BUF 64
 
-char* sysfs_read(const char* path, const char* filename);
+int sysfs_read(const char* path, const char* filename,const char*);
 int sysfs_write(const char*, const char* , int);
 int gpio_export(uint32_t);
 int gpio_unexport(uint32_t);

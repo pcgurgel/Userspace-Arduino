@@ -28,13 +28,10 @@
 #include "sysfs.h"
 #include <time.h>
 
-char* sysfs_read(const char* path, const char* filename)
+int sysfs_read(const char* path, const char* filename, char* value)
 {
 		FILE* fd;
 		char buf[MAX_BUF];
-		char* temp;
-		char value[MAX_BUF];
-
 		snprintf(buf, sizeof(buf),"%s%s",path,filename);
 		fd=fopen(buf,"r");
 		if(fd==NULL){
@@ -43,10 +40,7 @@ char* sysfs_read(const char* path, const char* filename)
 		}
 		fscanf(fd,"%s",value);
 		fclose(fd);
-		temp = (char*)malloc(strlen(value));
-		strcpy(temp,value);
-		printf("%s\n",value);
-        return temp;
+        return 0;
 }
 
 int sysfs_write(const char* path, const char* filename,int value)
