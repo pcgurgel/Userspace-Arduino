@@ -12,7 +12,7 @@ FILE=$1
 EXECUTABLE=${FILE}.elf
 
 scp build-userspace/${EXECUTABLE} ${USERNAME}@${IP}:~/${FILE}
-ssh ${USERNAME}@${IP} -t "./"${EXECUTABLE}
+ssh ${USERNAME}@${IP} -t "./"${FILE}
 
 return_result=$?
 
