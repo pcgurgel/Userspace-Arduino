@@ -2,24 +2,18 @@
 
 
 # COMMAND LINE ARGUMENTS
-# ./send_exec.sh arduinofile.ino
+# ./send_exec.sh arduinofile
 
-# A bash script to helloworld.bin to beagleboard and return the output
+# A bash script to upload an executable binary to beagleboard and return the output
 
 IP="192.168.7.2"
 USERNAME="root"
 FILE=$1
-FILE=${FILE%%\.*}
-EXECUTABLE=$FILE.elf
+EXECUTABLE=${FILE}.elf
 
-make
-
-echo "ls
- put build-userspace/"$EXECUTABLE"
- exit" > commands.tmp
-
-sftp -b commands.tmp $USERNAME@$IP
-ssh $USERNAME@$IP #-t "./"$EXECUTABLE
+scp build-userspace/${EXECUTABLE} ${USERNAME}@${IP}:~/${FILE}
+ssh ${USERNAME}@${IP}
+#ssh ${USERNAME}@${IP} -t "./"${EXECUTABLE}
 
 
 
