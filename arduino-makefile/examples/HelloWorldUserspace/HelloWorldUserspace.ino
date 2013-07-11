@@ -4,7 +4,6 @@
  *
  *
  */
-#include "Arduino.h"
 
 void setup() {
 	printf("hello, world!\n");
