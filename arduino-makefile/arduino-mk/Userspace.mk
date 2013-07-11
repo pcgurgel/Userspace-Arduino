@@ -656,7 +656,6 @@ error_on_leonardo:
 # Use submake so we can guarantee the reset happens
 # before the upload, even with make -j
 upload:		$(TARGET_HEX) verify_size
-		$(MAKE) reset
 		$(MAKE) do_upload
 
 raw_upload:	$(TARGET_HEX) verify_size
@@ -664,8 +663,7 @@ raw_upload:	$(TARGET_HEX) verify_size
 		$(MAKE) do_upload
 
 do_upload:
-		$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ARD_OPTS) \
-			$(AVRDUDE_UPLOAD_HEX)
+		$(UPLOAD_UTILITY) $(TARGET)
 
 do_eeprom:	$(TARGET_EEP) $(TARGET_HEX)
 		$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ARD_OPTS) \
