@@ -15,5 +15,9 @@ scp build-userspace/${EXECUTABLE} ${USERNAME}@${IP}:~/${FILE}
 ssh ${USERNAME}@${IP}
 #ssh ${USERNAME}@${IP} -t "./"${EXECUTABLE}
 
+return_result=$?
 
+if [ ${return_result} = 130 ] ; then
+    exit 0
+fi
 
