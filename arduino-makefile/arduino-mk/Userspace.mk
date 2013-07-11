@@ -323,7 +323,6 @@ else
 endif
 #CROSS COMPILE
 ifndef CROSS_COMPILE
-    CROSS_COMPILE = /usr/local/angstrom/arm/bin/arm-angstrom-linux-gnueabi-
     $(call show_config_variable,CROSS_COMPILE,[DEFAULT])
 else
     $(call show_config_variable,CROSS_COMPILE,[USER])
