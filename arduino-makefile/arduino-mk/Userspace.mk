@@ -255,16 +255,16 @@ endif
 # Arduino and system paths
 #
 
-USERSPACE_CORE_PATH = $(ARDUINO_DIR)/hardware/userspace/cores/virtual
+USERSPACE_CORE_PATH = $(ARDUINO_DIR)/libarduino/cores/virtual
 $(call show_config_variable,USERSPACE_CORE_PATH,[DEFAULT])
 
 ifndef USERSPACE_VAR_PATH
-    USERSPACE_VAR_PATH  = $(ARDUINO_DIR)/hardware/userspace/variants/beaglebone
+    USERSPACE_VAR_PATH  = $(ARDUINO_DIR)/libarduino/variants/beaglebone
     $(call show_config_variable,USERSPACE_VAR_PATH,[COMPUTED],(from USERSPACE_CORE_PATH))
 endif
 
 ifndef BOARDS_TXT
-    BOARDS_TXT  = $(ARDUINO_DIR)/hardware/userspace/boards.txt
+    BOARDS_TXT  = $(ARDUINO_DIR)/libarduino/boards.txt
     $(call show_config_variable,BOARDS_TXT,[COMPUTED],(from USERSPACE_CORE_PATH))
 endif
 
