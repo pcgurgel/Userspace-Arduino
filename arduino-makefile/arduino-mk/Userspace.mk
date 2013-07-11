@@ -328,6 +328,14 @@ else
     $(call show_config_variable,CROSS_COMPILE,[USER])
 endif
 
+#UPLOAD_UTILITY
+ifndef UPLOAD_UTILITY
+    UPLOAD_UTILITY = ${ARDUINO_DIR}/utility/send_exec.sh
+    $(call show_config_variable,UPLOAD_UTILITY,[DEFAULT])
+else
+    $(call show_config_variable,UPLOAD_UTILITY,[USER])
+endif
+
 ########################################################################
 # Local sources
 #
