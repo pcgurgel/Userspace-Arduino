@@ -29,7 +29,7 @@
 #include <time.h>
 #include <wordexp.h>
 
-int sysfs_read(const char* path, const char* filename, const char* value)
+int sysfs_read(const char* path, const char* filename, char* value)
 {
 	FILE* fd;
 	char buf[MAX_BUF];

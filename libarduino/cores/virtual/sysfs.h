@@ -31,7 +31,7 @@ extern "C"{
 #define SYSFS_GPIO_DIR "/sys/class/gpio"
 #define SYSFS_LED_DIR "/sys/class/leds"
 
-int sysfs_read(const char* path, const char* filename, const char* value);
+int sysfs_read(const char* path, const char* filename, char* value);
 int sysfs_write(const char* path, const char* filename, int value);
 void load_cape(const char* capename);
 void sysfs_gpio_setvalue(uint8_t pin, uint8_t value);
