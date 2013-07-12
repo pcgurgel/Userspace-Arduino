@@ -116,6 +116,8 @@ extern "C" {
 
 void init( void )
 {
+  /* Load capes here */
+  load_cape("BB-BONE-BACONE");
   /* Derive the offsets and export the GPIOs */
   for (unsigned int i = 0; i < PINS_COUNT; i += 1) {
 	if(g_APinDescription[i].pinType != ANALOG)
