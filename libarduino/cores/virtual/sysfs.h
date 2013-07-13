@@ -33,7 +33,6 @@ extern "C"{
 
 int sysfs_read(const char* path, const char* filename, char* value);
 int sysfs_write(const char* path, const char* filename, int value);
-void load_cape(const char* capename);
 void sysfs_gpio_setvalue(uint8_t pin, uint8_t value);
 void sysfs_led_setvalue(uint8_t led, uint8_t value);
 int sysfs_gpio_getvalue(uint8_t pin);

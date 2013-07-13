@@ -17,7 +17,8 @@
 */
 
 #include "variant.h"
-
+#include <wordexp.h>
+#include <unistd.h>
 /*
  * Arduino Pin     |  BBB    Header Pin  | Label
  * ----------------+---------------------+-------
@@ -113,6 +114,31 @@ PinDescription g_APinDescription[]=
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+void load_cape(const char* capename)
+{
+	FILE* fd;
+	char* slots;
+	wordexp_t wordexp_buf;
+	// ask wordexp to expand the filepath for slots
+	wordexp("/sys/devices/bone_capemgr*/slots", &wordexp_buf, 0);
+	// assume it's the first value
+	slots = wordexp_buf.we_wordv[0];
+	fd = fopen(slots, "w");
+	if (fd == NULL) {
+		perror(slots);
+		wordfree(&wordexp_buf);
+		return;
+	}
+	fprintf(fd,"%s",capename);
+	if (fclose(fd) != 0)
+		perror(capename);
+	else {
+		printf("Cape loaded %s\n", capename);
+		sleep(2);
+	}
+	wordfree(&wordexp_buf);
+}
 
 void init( void )
 {

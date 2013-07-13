@@ -27,7 +27,6 @@
 #include <errno.h>
 #include <unistd.h>
 #include <time.h>
-#include <wordexp.h>
 
 int sysfs_read(const char* path, const char* filename, char* value)
 {
@@ -57,31 +56,6 @@ int sysfs_write(const char* path, const char* filename,int value)
 	fprintf(fd,"%d",value);
 	fclose(fd);
 	return 0;
-}
-
-void load_cape(const char* capename)
-{
-	FILE* fd;
-	char* slots;
-	wordexp_t wordexp_buf;
-	// ask wordexp to expand the filepath for slots
-	wordexp("/sys/devices/bone_capemgr*/slots", &wordexp_buf, 0);
-	// assume it's the first value
-	slots = wordexp_buf.we_wordv[0];
-	fd = fopen(slots, "w");
-	if (fd == NULL) {
-		perror(slots);
-		wordfree(&wordexp_buf);
-		return;
-	}
-	fprintf(fd,"%s",capename);
-	if (fclose(fd) != 0)
-		perror(capename);
-	else {
-		printf("Cape loaded %s\n", capename);
-		sleep(2);
-	}
-	wordfree(&wordexp_buf);
 }
 
 void sysfs_gpio_setvalue(uint8_t pin, uint8_t value)
