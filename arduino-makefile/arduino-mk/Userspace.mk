@@ -651,42 +651,8 @@ $(CORE_LIB):	$(CORE_OBJS) $(LIB_OBJS) $(USER_LIB_OBJS) $(VARIANT_OBJS)
 upload:		$(TARGET_HEX) verify_size
 		$(MAKE) do_upload
 
-raw_upload:	$(TARGET_HEX) verify_size
-		$(MAKE) do_upload
-
 do_upload:
 		$(UPLOAD_UTILITY) $(TARGET)
-
-do_eeprom:	$(TARGET_EEP) $(TARGET_HEX)
-		$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ARD_OPTS) \
-			$(AVRDUDE_UPLOAD_EEP)
-
-eeprom:		$(TARGET_HEX) verify_size
-		$(MAKE) do_eeprom
-
-raw_eeprom:	$(TARGET_HEX) verify_size
-		$(MAKE) do_eeprom
-
-# stty on MacOS likes -F, but on Debian it likes -f redirecting
-# stdin/out appears to work but generates a spurious error on MacOS at
-# least. Perhaps it would be better to just do it in perl ?
-reset_stty:
-		for STTYF in 'stty -F' 'stty --file' 'stty -f' 'stty <' ; \
-		  do $$STTYF /dev/tty >/dev/null 2>&1 && break ; \
-		done ; \
-		$$STTYF $(call get_arduino_port)  hupcl ; \
-		(sleep 0.1 2>/dev/null || sleep 1) ; \
-		$$STTYF $(call get_arduino_port) -hupcl
-
-ispload:	$(TARGET_EEP) $(TARGET_HEX) verify_size
-ifdef AVRDUDE_ISP_FUSES_PRE
-		$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) -e $(AVRDUDE_ISP_FUSES_PRE)
-endif
-		$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) \
-			$(AVRDUDE_ISPLOAD_OPTS)
-ifdef AVRDUDE_ISP_FUSES_POST
-		$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) $(AVRDUDE_ISP_FUSES_POST)
-endif
 
 clean:
 		$(REMOVE) $(LOCAL_OBJS) $(CORE_OBJS) $(LIB_OBJS) $(CORE_LIB) $(TARGETS) $(DEPS) $(USER_LIB_OBJS) ${OBJDIR}
@@ -722,7 +688,7 @@ generate_assembly: $(OBJDIR)/$(TARGET).s
 generated_assembly: generate_assembly
 	@$(ECHO) "generated_assembly" target is deprecated. Use "generate_assembly" target instead
 	
-.PHONY:	all upload raw_upload raw_eeprom reset_stty ispload clean depends size show_boards monitor disasm symbol_sizes generated_assembly generate_assembly verify_size
+.PHONY:	all upload clean depends size show_boards monitor disasm symbol_sizes generated_assembly generate_assembly verify_size
 
 # added - in the beginning, so that we don't get an error if the file is not present
 -include $(DEPS)
