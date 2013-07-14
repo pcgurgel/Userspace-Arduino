@@ -25,6 +25,7 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include "wiring.h"
+#include "linux-virtual.h"
 
 uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder) {
 	uint8_t value = 0;
