@@ -305,15 +305,6 @@ else
     $(call show_config_variable,BOARD_TAG,[USER])
 endif
 
-ifndef PARSE_BOARD
-    PARSE_BOARD = $(ARDMK_PATH)/ard-parse-boards
-endif
-
-ifndef PARSE_BOARD_OPTS
-    PARSE_BOARD_OPTS = --boards_txt=$(BOARDS_TXT)
-endif
-
-
 # Everything gets built in here (include BOARD_TAG now)
 ifndef OBJDIR
     OBJDIR = build-$(BOARD_TAG)
@@ -659,9 +650,6 @@ clean:
 
 size:		$(TARGET_HEX)
 		$(call avr_size,$(TARGET_ELF),$(TARGET_HEX))
-
-show_boards:
-		$(PARSE_BOARD_CMD) --boards
 
 monitor:
 		$(MONITOR_CMD) $(call get_arduino_port) $(MONITOR_BAUDRATE)
