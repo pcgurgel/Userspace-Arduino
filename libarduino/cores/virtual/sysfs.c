@@ -35,7 +35,7 @@ int sysfs_read(const char* path, const char* filename, char* value)
 	snprintf(buf, sizeof(buf),"%s%s",path,filename);
 	fd=fopen(buf,"r");
 	if(fd==NULL){
-		printf("\nError opening file");
+		printf("\nsysfs_read: Error opening file %s",buf);
 		return -1;
 	}
 	fscanf(fd,"%s",value);
@@ -50,7 +50,7 @@ int sysfs_write(const char* path, const char* filename,int value)
 	snprintf(buf, sizeof(buf),"%s%s",path,filename);
 	fd = fopen(buf,"w");
 	if (fd==NULL) {
-		printf("\nError opening file");
+		printf("\nsysfs_write: Error opening file %s",buf);
 		return -1;
 	}
 	fprintf(fd,"%d",value);
@@ -98,7 +98,7 @@ int gpio_export(uint32_t gpio_pin)
 	FILE* fd;
 	fd=fopen("/sys/class/gpio/export","w");
 	if (fd==NULL) {
-		printf("\nFile already open");
+		printf("\ngpio_export: File already open");
 		return gpio_pin;//file already open
 	}
 
@@ -112,7 +112,7 @@ int gpio_unexport(uint32_t gpio_pin)
 	FILE* fd;
 	fd=fopen("/sys/class/gpio/unexport","w");
 	if (fd==NULL) {
-		printf("\nError opening file");
+		printf("\ngpio_unexport: Error opening file");
 		return -1;
 	}
 	fprintf(fd,"%d",gpio_pin);
@@ -137,7 +137,7 @@ int gpio_setdirection(uint32_t gpio_pin, const char* direction)
 	snprintf(buf, sizeof(buf),"/sys/class/gpio/gpio%d/direction",gpio_pin);
 	fd=fopen(buf,"w");
 	if (fd==NULL) {
-		printf("\nError opening file");
+		printf("\ngpio_setdirection: Error opening file %s",buf);
 		return -1;
 	}
 	fprintf(fd,"%s",direction);
