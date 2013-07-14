@@ -489,10 +489,6 @@ endif
 CPPFLAGS      += -I. -I$(USERSPACE_CORE_PATH) -I$(USERSPACE_VAR_PATH)/$(VARIANT) \
         $(SYS_INCLUDES) $(USER_INCLUDES) -g -Wall
 $(call show_config_variable,USERSPACE_CORE_PATH,[DEFAULT])
-# USB IDs for the Leonardo
-ifeq ($(VARIANT),leonardo)
-    CPPFLAGS += -DUSB_VID=$(USB_VID) -DUSB_PID=$(USB_PID)
-endif
 
 CFLAGS        += $(EXTRA_FLAGS) $(EXTRA_CFLAGS)
 CXXFLAGS      += $(EXTRA_FLAGS) $(EXTRA_CXXFLAGS)
@@ -650,16 +646,12 @@ $(TARGET_ELF): 	$(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS)
 $(CORE_LIB):	$(CORE_OBJS) $(LIB_OBJS) $(USER_LIB_OBJS) $(VARIANT_OBJS)
 		$(AR) rcs $@ $(CORE_OBJS) $(LIB_OBJS) $(USER_LIB_OBJS) $(VARIANT_OBJS)
 
-error_on_leonardo:
-		$(ERROR_ON_LEONARDO)
-
 # Use submake so we can guarantee the reset happens
 # before the upload, even with make -j
 upload:		$(TARGET_HEX) verify_size
 		$(MAKE) do_upload
 
 raw_upload:	$(TARGET_HEX) verify_size
-		$(MAKE) error_on_leonardo
 		$(MAKE) do_upload
 
 do_upload:
@@ -670,19 +662,10 @@ do_eeprom:	$(TARGET_EEP) $(TARGET_HEX)
 			$(AVRDUDE_UPLOAD_EEP)
 
 eeprom:		$(TARGET_HEX) verify_size
-		$(MAKE) reset
 		$(MAKE) do_eeprom
 
 raw_eeprom:	$(TARGET_HEX) verify_size
-		$(MAKE) error_on_leonardo
 		$(MAKE) do_eeprom
-
-# the last part is for leonardo.
-# wait until leonardo reboots and establish a new connection.
-reset:
-		$(call arduino_output,Resetting Arduino...)
-		$(RESET_CMD)
-		$(WAIT_CONNECTION_CMD)
 
 # stty on MacOS likes -F, but on Debian it likes -f redirecting
 # stdin/out appears to work but generates a spurious error on MacOS at
@@ -739,7 +722,7 @@ generate_assembly: $(OBJDIR)/$(TARGET).s
 generated_assembly: generate_assembly
 	@$(ECHO) "generated_assembly" target is deprecated. Use "generate_assembly" target instead
 	
-.PHONY:	all upload raw_upload raw_eeprom error_on_leonardo reset reset_stty ispload clean depends size show_boards monitor disasm symbol_sizes generated_assembly generate_assembly verify_size
+.PHONY:	all upload raw_upload raw_eeprom reset_stty ispload clean depends size show_boards monitor disasm symbol_sizes generated_assembly generate_assembly verify_size
 
 # added - in the beginning, so that we don't get an error if the file is not present
 -include $(DEPS)
