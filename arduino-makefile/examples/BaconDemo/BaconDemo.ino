@@ -5,7 +5,7 @@
 //  Push Button Connected to P8_19, Digital Pin 7
 
 int pushButton = 7;
-
+int sliderPot  = 20;
 void setup() {                
   // initialise digital pins as inputs
   pinMode(pushButton, INPUT);
@@ -15,8 +15,10 @@ void setup() {
 void loop() {
   // read the input pin:
   int buttonState = digitalRead(pushButton);
+  int sliderState = analogRead(sliderPot);
+
   // print out the state of the button:
-  printf("%d\n", buttonState);
+  printf("Button State:%d Slider State:%d\n", buttonState, sliderState);
   delay(10);        // delay in between reads for stability
 }
 
