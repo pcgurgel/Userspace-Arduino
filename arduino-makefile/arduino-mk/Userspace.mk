@@ -413,9 +413,7 @@ endif
 #
 
 # The name of the main targets
-TARGET_HEX = $(OBJDIR)/$(TARGET).hex
 TARGET_ELF = $(OBJDIR)/$(TARGET).elf
-TARGET_EEP = $(OBJDIR)/$(TARGET).eep
 TARGETS    = $(OBJDIR)/$(TARGET).*
 CORE_LIB   = $(OBJDIR)/libcore.a
 
@@ -620,7 +618,7 @@ $(OBJDIR)/%.sym: $(OBJDIR)/%.elf $(COMMON_DEPS)
 # Explicit targets start here
 #
 
-all: 		$(TARGET_EEP) $(TARGET_HEX) verify_size
+all: 		$(TARGET_ELF)
 
 # Rule to create $(OBJDIR) automatically. All rules with recipes that
 # create a file within it, but do not already depend on a file within it
@@ -639,7 +637,7 @@ $(CORE_LIB):	$(CORE_OBJS) $(LIB_OBJS) $(USER_LIB_OBJS) $(VARIANT_OBJS)
 
 # Use submake so we can guarantee the reset happens
 # before the upload, even with make -j
-upload:		$(TARGET_HEX) verify_size
+upload:		$(TARGET_ELF)
 		$(MAKE) do_upload
 
 do_upload:
@@ -647,9 +645,6 @@ do_upload:
 
 clean:
 		$(REMOVE) $(LOCAL_OBJS) $(CORE_OBJS) $(LIB_OBJS) $(CORE_LIB) $(TARGETS) $(DEPS) $(USER_LIB_OBJS) ${OBJDIR}
-
-size:		$(TARGET_HEX)
-		$(call avr_size,$(TARGET_ELF),$(TARGET_HEX))
 
 monitor:
 		$(MONITOR_CMD) $(call get_arduino_port) $(MONITOR_BAUDRATE)
@@ -659,16 +654,6 @@ disasm: $(OBJDIR)/$(TARGET).lss
 
 symbol_sizes: $(OBJDIR)/$(TARGET).sym
 	@$(ECHO) A symbol listing sorted by their size have been dumped to $(OBJDIR)/$(TARGET).sym
-
-$(TARGET_HEX).sizeok: $(TARGET_HEX)
-ifneq ($(strip $(HEX_MAXIMUM_SIZE)),)
-	$(ARDMK_PATH)/ard-verify-size $(TARGET_HEX) $(HEX_MAXIMUM_SIZE)
-	touch $@
-else
-	@$(ECHO) Maximum Hex size is not specified. Make sure the hex file that you are going to upload is less than microcontrollers flash memory
-endif
-
-verify_size:	$(TARGET_HEX) $(TARGET_HEX).sizeok
 
 generate_assembly: $(OBJDIR)/$(TARGET).s
 	@$(ECHO) Compiler-generated assembly for the main input source has been dumped to $(OBJDIR)/$(TARGET).s
