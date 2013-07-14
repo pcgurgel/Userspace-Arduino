@@ -80,7 +80,7 @@ int sysfs_gpio_getvalue(uint8_t pin)
 uint32_t sysfs_adc_getvalue(uint32_t channel)
 {
 	char buf[MAX_BUF], channelname[5], value[8];
-	snprintf(buf, sizeof(buf), SYSFS_ADC_DIR"/", channel);
+	snprintf(buf, sizeof(buf), SYSFS_ADC_DIR"/");
 	snprintf(channelname, sizeof(channelname), "AIN%d", channel);
 	sysfs_read(buf, channelname, value);
 	return atol(value);
