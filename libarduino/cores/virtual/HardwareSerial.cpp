@@ -56,6 +56,7 @@ return 0;
 int HardwareSerial::peek(void)
 {
 printf("serial:peek return 0x00\n");
+return 0;
 }
 
 int HardwareSerial::read(void)
