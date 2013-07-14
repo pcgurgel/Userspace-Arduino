@@ -30,12 +30,14 @@ extern "C"{
 #define MAX_BUF 64
 #define SYSFS_GPIO_DIR "/sys/class/gpio"
 #define SYSFS_LED_DIR "/sys/class/leds"
+#define SYSFS_ADC_DIR "/sys/devices/ocp.2/bacon_adc_helper.14"
 
 int sysfs_read(const char* path, const char* filename, char* value);
 int sysfs_write(const char* path, const char* filename, int value);
 void sysfs_gpio_setvalue(uint8_t pin, uint8_t value);
 void sysfs_led_setvalue(uint8_t led, uint8_t value);
 int sysfs_gpio_getvalue(uint8_t pin);
+uint32_t sysfs_adc_getvalue(uint32_t channel);
 int gpio_export(uint32_t gpio_pin);
 int gpio_unexport(uint32_t gpio_pin);
 void delay(unsigned long ms);
