@@ -29,6 +29,7 @@ typedef struct _PinDescription
   uint32_t headerPin ;
   uint32_t gpioPin ;
   PinTypes pinType ;
+  uint32_t analogChannel ;
   uint32_t pinOffset ;
 } PinDescription ;
 
@@ -43,6 +44,6 @@ extern PinDescription g_APinDescription[] ;
 
 #include "wiring.h"
 #include "wiring_digital.h"
-
+#include "wiring_analog.h"
 #endif
 

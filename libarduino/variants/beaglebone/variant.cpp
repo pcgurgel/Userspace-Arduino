@@ -85,7 +85,7 @@ PinDescription g_APinDescription[]=
   // 10
   { P9_17,    5,  GPIO  }, // SPI0_CSO
   { P9_18,    4,  GPIO  }, // MOSI
-  { P9_21,    3,  SPI  }, // MISO
+  { P9_21,    3,  SPI   }, // MISO
   { P9_22,    2,  GPIO  }, // SCK
   
   // 14 .. 17 - USR LEDs
@@ -96,13 +96,13 @@ PinDescription g_APinDescription[]=
 
   // 18 .. 24 - Analog pins
   // ----------------------
-  { AIN4,  ANALOG_PIN,  ANALOG  },
-  { AIN6,  ANALOG_PIN,  ANALOG  },
-  { AIN5,  ANALOG_PIN,  ANALOG  },
-  { AIN2,  ANALOG_PIN,  ANALOG  },
-  { AIN3,  ANALOG_PIN,  ANALOG  },
-  { AIN0,  ANALOG_PIN,  ANALOG  },
-  { AIN1,  ANALOG_PIN,  ANALOG  }
+  { AIN4,  ANALOG_PIN,  ANALOG, 4 },
+  { AIN6,  ANALOG_PIN,  ANALOG, 6 },
+  { AIN5,  ANALOG_PIN,  ANALOG, 5 },
+  { AIN2,  ANALOG_PIN,  ANALOG, 2 },
+  { AIN3,  ANALOG_PIN,  ANALOG, 3 },
+  { AIN0,  ANALOG_PIN,  ANALOG, 0 },
+  { AIN1,  ANALOG_PIN,  ANALOG, 1 }
 } ;
 
 #ifdef __cplusplus
