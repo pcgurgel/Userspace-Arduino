@@ -134,19 +134,10 @@
 #   make             - no upload
 #   make clean       - remove all our dependencies
 #   make depends     - update dependencies
-#   make reset       - reset the Arduino by tickling DTR on the serial port
-#   make raw_upload  - upload without first resetting
-#   make show_boards - list all the boards defined in boards.txt
 #   make monitor     - connect to the Arduino's serial port
-#   make size        - show the size of the compiled output (relative to
-#                      resources, if you have a patched avr-size)
 #   make disasm      - generate a .lss file in build-cli that contains
 #                      disassembly of the compiled file interspersed
 #                      with your original source code.
-#   make verify_size - Verify that the size of the final file is less than
-#   				   the capacity of the micro controller.
-#   make eeprom      - upload the eep file
-#	make raw_eeprom  - upload the eep file without first resetting
 #
 ########################################################################
 #
@@ -279,30 +270,6 @@ ifndef BOARDS_TXT
     BOARDS_TXT  = $(ARDUINO_DIR)/libarduino/boards.txt
     $(call show_config_variable,BOARDS_TXT,[COMPUTED],(from USERSPACE_CORE_PATH))
 endif
-
-########################################################################
-# Makefile distribution path
-#
-ifndef ARDMK_DIR
-    # presume it's a level above the path to our own file
-    ARDMK_DIR := $(realpath $(dir $(realpath $(lastword $(MAKEFILE_LIST))))/..)
-    $(call show_config_variable,ARDMK_DIR,[COMPUTED],(relative to $(notdir $(lastword $(MAKEFILE_LIST)))))
-else
-    $(call show_config_variable,ARDMK_DIR,[USER])
-endif
-
-ifdef ARDMK_DIR
-    ifndef ARDMK_PATH
-        ARDMK_PATH = $(ARDMK_DIR)/bin
-        $(call show_config_variable,ARDMK_PATH,[COMPUTED],(relative to ARDMK_DIR))
-    else
-        $(call show_config_variable,ARDMK_PATH,[USER])
-    endif
-else
-    echo $(error "ARDMK_DIR is not defined")
-endif
-
-
 
 ########################################################################
 # boards.txt parsing
@@ -497,19 +464,6 @@ ASFLAGS       += -I. -x assembler-with-cpp
 LDFLAGS       += -Wl,--gc-sections $(EXTRA_FLAGS) $(EXTRA_CXXFLAGS)
 SIZEFLAGS     ?= -C
 
-# Command for avr_size: do $(call avr_size,elffile,hexfile)
-ifneq (,$(findstring AVR,$(shell $(SIZE) --help)))
-    # We have a patched version of binutils that mentions AVR - pass the MCU
-    # and the elf to get nice output.
-    avr_size = $(SIZE) $(SIZEFLAGS) --format=avr $(1)
-    $(call show_config_info,Size utility: AVR-aware for enhanced output,[AUTODETECTED])
-else
-    # We have a plain-old binutils version - just give it the hex.
-    avr_size = $(SIZE) $(2)
-    $(call show_config_info,Size utility: Basic (not AVR-aware),[AUTODETECTED])
-endif
-
-
 ifneq (,$(strip $(ARDUINO_LIBS)))
     $(call arduino_output,-)
     $(call show_config_info,ARDUINO_LIBS =)
@@ -628,16 +582,6 @@ $(OBJDIR)/%.o: $(USERSPACE_CORE_PATH)/%.cpp $(COMMON_DEPS) | $(OBJDIR)
 
 
 # various object conversions
-$(OBJDIR)/%.hex: $(OBJDIR)/%.elf $(COMMON_DEPS)
-	$(OBJCOPY) -O ihex -R .eeprom $< $@
-	@$(ECHO)
-	@$(ECHO)
-	$(call avr_size,$<,$@)
-
-$(OBJDIR)/%.eep: $(OBJDIR)/%.elf $(COMMON_DEPS)
-	-$(OBJCOPY) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
-		--change-section-lma .eeprom=0 -O ihex $< $@
-
 $(OBJDIR)/%.lss: $(OBJDIR)/%.elf $(COMMON_DEPS)
 	$(OBJDUMP) -h --source --demangle --wide $< > $@
 
@@ -699,7 +643,7 @@ generate_assembly: $(OBJDIR)/$(TARGET).s
 generated_assembly: generate_assembly
 	@$(ECHO) "generated_assembly" target is deprecated. Use "generate_assembly" target instead
 	
-.PHONY:	all upload clean depends size show_boards monitor disasm symbol_sizes generated_assembly generate_assembly verify_size
+.PHONY:	all upload clean depends monitor disasm symbol_sizes generated_assembly generate_assembly
 
 # added - in the beginning, so that we don't get an error if the file is not present
 -include $(DEPS)
