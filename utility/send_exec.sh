@@ -11,7 +11,11 @@ USERNAME="root"
 FILE=$1
 EXECUTABLE=${FILE}.elf
 
-scp build-userspace/${EXECUTABLE} ${USERNAME}@${IP}:~/${FILE}
+echo "Transfering ${FILE} to ${USERNAME}@${IP}..."
+scp -q build-userspace/${EXECUTABLE} ${USERNAME}@${IP}:~/${FILE}
+echo "Executing ${FILE}"
+echo "Begin output log"
+echo "===================="
 ssh ${USERNAME}@${IP} -t "./"${FILE}
 
 return_result=$?
