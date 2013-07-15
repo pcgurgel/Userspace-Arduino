@@ -243,6 +243,18 @@ else
     $(call show_config_variable,ARDUINO_DIR,[USER])
 endif
 
+
+# To put more focus on warnings, be less verbose as default
+# Use 'make V=1' to see the full commands
+
+ifeq ("$(origin V)", "command line")
+  BUILD_VERBOSE = $(V)
+endif
+ifndef BUILD_VERBOSE
+  BUILD_VERBOSE = 0
+endif
+
+
 ########################################################################
 #
 # Default TARGET to pwd (ex Daniele Vergini)
@@ -516,6 +528,13 @@ $(call show_config_variable,USERSPACE_VAR_PATH, [USER])
 # end of config output
 $(call show_separator)
 
+
+ifeq ($(BUILD_VERBOSE),1)
+  Q =
+else
+  Q = @
+endif
+
 # Implicit rules for building everything (needed to get everything in
 # the right directory)
 #
@@ -526,20 +545,24 @@ $(call show_separator)
 
 # library sources
 $(OBJDIR)/libs/%.o: $(ARDUINO_LIB_PATH)/%.c
+	@$(ECHO) Compliling $@
 	$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/libs/%.o: $(ARDUINO_LIB_PATH)/%.cpp
+	@$(ECHO) Compliling $@
 	$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/libs/%.o: $(USER_LIB_PATH)/%.cpp
+	@$(ECHO) Compliling $@
 	$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/libs/%.o: $(USER_LIB_PATH)/%.c
+	@$(ECHO) Compliling $@
 	$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 ifdef COMMON_DEPS
     COMMON_DEPS := $(COMMON_DEPS) Makefile
@@ -547,52 +570,61 @@ else
     COMMON_DEPS := Makefile
 endif
 
+
 # normal local sources
 $(OBJDIR)/%.o: %.c $(COMMON_DEPS) | $(OBJDIR)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/%.o: %.cc $(COMMON_DEPS) | $(OBJDIR)
-	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(Q)$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/%.o: %.cpp $(COMMON_DEPS) | $(OBJDIR)
-	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(Q)$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/%.o: %.S $(COMMON_DEPS) | $(OBJDIR)
-	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
+	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
 
 $(OBJDIR)/%.o: %.s $(COMMON_DEPS) | $(OBJDIR)
-	$(CC) -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
+	$(Q)$(CC) -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
 
 # the pde -> o file
 $(OBJDIR)/%.o: %.pde $(COMMON_DEPS) | $(OBJDIR)
-	$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	@$(ECHO) Compliling $@
+	$(Q)$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 # the ino -> o file
 $(OBJDIR)/%.o: %.ino $(COMMON_DEPS) | $(OBJDIR)
-	$(CXX) -x c++ -include linux-virtual.h -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	@$(ECHO) Compliling $@
+	$(Q)$(CXX) -x c++ -include linux-virtual.h -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 # generated assembly
 $(OBJDIR)/%.s: %.pde $(COMMON_DEPS) | $(OBJDIR)
-	$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	@$(ECHO) Compliling $@
+	$(Q)$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/%.s: %.ino $(COMMON_DEPS) | $(OBJDIR)
-	$(CXX) -x c++ -include linux-virtual.h -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	@$(ECHO) Compliling $@
+	$(Q)$(CXX) -x c++ -include linux-virtual.h -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 # variants
 $(OBJDIR)/%.o: $(USERSPACE_VAR_PATH)/%.c $(COMMON_DEPS) | $(OBJDIR)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+	@$(ECHO) Compliling $@
+	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 $(OBJDIR)/%.o: $(USERSPACE_VAR_PATH)/%.cpp $(COMMON_DEPS) | $(OBJDIR)
-	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	@$(ECHO) Compliling $@
+	$(Q)$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 #$(OBJDIR)/%.lst: $(OBJDIR)/%.s
 #	$(AS) -mmcu=$(MCU) -alhnd $< > $@
 
 # core files
 $(OBJDIR)/%.o: $(USERSPACE_CORE_PATH)/%.c $(COMMON_DEPS) | $(OBJDIR)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+	@$(ECHO) Compliling $@
+	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/%.o: $(USERSPACE_CORE_PATH)/%.cpp $(COMMON_DEPS) | $(OBJDIR)
-	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	@$(ECHO) Compliling $@
+	$(Q)$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
 # various object conversions
@@ -630,18 +662,21 @@ $(OBJDIR):
 		$(MKDIR) $(OBJDIR)
 
 $(TARGET_ELF): 	$(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS)
-		$(CC) $(LDFLAGS) -o $@ $(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS) -lc -lm
+		@$(ECHO) Compliling $@
+		$(Q)$(CC) $(LDFLAGS) -o $@ $(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS) -lc -lm
+		@$(ECHO) Build of $(TARGET) complete!
 
 $(CORE_LIB):	$(CORE_OBJS) $(LIB_OBJS) $(USER_LIB_OBJS) $(VARIANT_OBJS)
-		$(AR) rcs $@ $(CORE_OBJS) $(LIB_OBJS) $(USER_LIB_OBJS) $(VARIANT_OBJS)
+		@$(ECHO) Creating $@
+		$(Q)$(AR) rcs $@ $(CORE_OBJS) $(LIB_OBJS) $(USER_LIB_OBJS) $(VARIANT_OBJS)
 
 # Use submake so we can guarantee the reset happens
 # before the upload, even with make -j
 upload:		$(TARGET_ELF)
-		$(MAKE) do_upload
+		$(Q)$(MAKE) do_upload
 
 do_upload:
-		$(UPLOAD_UTILITY) $(TARGET)
+		$(Q)$(UPLOAD_UTILITY) $(TARGET)
 
 clean:
 		$(REMOVE) $(LOCAL_OBJS) $(CORE_OBJS) $(LIB_OBJS) $(CORE_LIB) $(TARGETS) $(DEPS) $(USER_LIB_OBJS) ${OBJDIR}
