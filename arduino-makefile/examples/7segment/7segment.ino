@@ -10,16 +10,16 @@
     #define CLOCK 13
     #define DATA 11
     #define pushButton 7
-     
+    #define sliderPot 20
      
     /*
      clk=/sys/class/gpio/gpio2
      serial=/sys/class/gpio/gpio4
      latch=/sys/class/gpio/gpio5
     */
-    const byte ledCharSet[10] = {
+    const byte ledCharSet[11] = {
      
-      B00111111,B00000110,B01011011,B01001111,B01100110,B01101101,B01111101,B00000111,B01111111,B01101111
+      B00111111,B00000110,B01011011,B01001111,B01100110,B01101101,B01111101,B00000111,B01111111,B01101111,B10000000
     };
      
     void setup(){
@@ -36,9 +36,9 @@
      
     void loop(){
             int buttonState = digitalRead(pushButton);
+	    int sliderState = analogRead(sliderPot);
             /* Serial.println("Seven segment display test"); */
             /* print out the state of the button: */
-            printf("%d\n", buttonState);
             /* delay in between reads for stability */
             if (!buttonState) {
                     digitalWrite(LATCH,0);
@@ -50,6 +50,14 @@
                     }
             delay(250);
             }
+            else {
+
+		    i=abs(sliderState/100);
+                    digitalWrite(LATCH,0);
+                    shiftOut(DATA,CLOCK,MSBFIRST,~(ledCharSet[i]));
+                    digitalWrite(LATCH,1);
+
+	    }
             delay(10);
     }
 
