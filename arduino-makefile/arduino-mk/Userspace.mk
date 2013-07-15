@@ -665,6 +665,7 @@ $(TARGET_ELF): 	$(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS)
 		@$(ECHO) Compliling $@
 		$(Q)$(CC) $(LDFLAGS) -o $@ $(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS) -lc -lm
 		@$(ECHO) Build of $(TARGET) complete!
+		@$(ECHO)
 
 $(CORE_LIB):	$(CORE_OBJS) $(LIB_OBJS) $(USER_LIB_OBJS) $(VARIANT_OBJS)
 		@$(ECHO) Creating $@
@@ -673,13 +674,15 @@ $(CORE_LIB):	$(CORE_OBJS) $(LIB_OBJS) $(USER_LIB_OBJS) $(VARIANT_OBJS)
 # Use submake so we can guarantee the reset happens
 # before the upload, even with make -j
 upload:		$(TARGET_ELF)
-		$(Q)$(MAKE) do_upload
+		$(Q)$(MAKE) --no-print-directory do_upload
 
 do_upload:
 		$(Q)$(UPLOAD_UTILITY) $(TARGET)
 
 clean:
-		$(REMOVE) $(LOCAL_OBJS) $(CORE_OBJS) $(LIB_OBJS) $(CORE_LIB) $(TARGETS) $(DEPS) $(USER_LIB_OBJS) ${OBJDIR}
+		@$(ECHO) Removing all builds files in $(TARGET)/${OBJDIR}
+		$(Q)$(REMOVE) $(LOCAL_OBJS) $(CORE_OBJS) $(LIB_OBJS) $(CORE_LIB) $(TARGETS) $(DEPS) $(USER_LIB_OBJS) ${OBJDIR}
+		@$(ECHO)
 
 monitor:
 		$(MONITOR_CMD) $(call get_arduino_port) $(MONITOR_BAUDRATE)
