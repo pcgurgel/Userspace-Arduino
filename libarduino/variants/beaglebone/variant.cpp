@@ -150,6 +150,8 @@ void init( void )
 		g_APinDescription[i].pinOffset = g_APinDescription[i].headerPin * 4;
 	if(g_APinDescription[i].pinType == GPIO)
 		gpio_export(g_APinDescription[i].gpioPin);
+	if(g_APinDescription[i].pinType == PWM)
+	  pwm_export(g_APinDescription[i].gpioPin);
   }
 }
 

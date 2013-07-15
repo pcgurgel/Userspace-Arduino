@@ -43,6 +43,7 @@ int gpio_unexport(uint32_t gpio_pin);
 void delay(unsigned long ms);
 void delayMicroseconds(unsigned int us);
 int gpio_setdirection(uint32_t gpio_pin, const char* direction);
+int pwm_export(uint32_t pwm_pin);
 
 #ifdef __cplusplus
 				} // extern "C"

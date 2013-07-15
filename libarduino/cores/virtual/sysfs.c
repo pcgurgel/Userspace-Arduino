@@ -144,3 +144,27 @@ int gpio_setdirection(uint32_t gpio_pin, const char* direction)
 	fclose(fd);
 	return gpio_pin;
 }
+
+int pwm_export(uint32_t pwm_pin)
+{
+	FILE* fd;
+	fd=fopen("/sys/class/pwm/export","w");
+	if (fd==NULL) {
+		printf("\npwm_export: Error opening file");
+		return -1;
+	}
+	printf("%d\n",pwm_pin);
+	switch(pwm_pin){
+	case 31:
+			fprintf(fd,"0");
+			break;
+	case 51:
+			fprintf(fd,"1");
+			break;
+	case 7:
+			fprintf(fd,"2");
+			break;
+	}
+	fclose(fd);
+	return pwm_pin;
+}
