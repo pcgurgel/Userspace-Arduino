@@ -62,12 +62,13 @@ int analogWrite(uint8_t pin,uint32_t value)
 	sysfs_read(buf,"run",prev);
 	pr=atoi(prev);
 
-	if(pr==1)
-		sysfs_write(buf, "run",0);
-
-	sysfs_write(buf, "duty_ns",value);
-	sysfs_write(buf, "period_ns",20000);
-	sysfs_write(buf, "run",1);
+	if(pr==0) {
+		sysfs_write(buf, "duty_ns",value);
+		sysfs_write(buf, "period_ns",20000);
+		sysfs_write(buf, "run",1);
+	}
+	else
+		sysfs_write(buf, "duty_ns",value);
 
 	if(!value)
 		sysfs_write(buf, "run",0);
