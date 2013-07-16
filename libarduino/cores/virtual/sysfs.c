@@ -153,7 +153,6 @@ int pwm_export(uint32_t pwm_pin)
 		printf("\npwm_export: Error opening file");
 		return -1;
 	}
-	printf("%d\n",pwm_pin);
 	switch(pwm_pin){
 	case 31:
 			fprintf(fd,"0");
