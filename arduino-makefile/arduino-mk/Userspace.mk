@@ -607,7 +607,7 @@ $(OBJDIR):
 
 $(TARGET_ELF): 	$(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS)
 		@$(ECHO) Compliling $@
-		$(Q)$(CC) $(LDFLAGS) -o $@ $(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS) -lc -lm
+		$(Q)$(CXX) $(LDFLAGS) -o $@ $(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS)
 		@$(ECHO) Build of $(TARGET) complete!
 		@$(ECHO)
 
