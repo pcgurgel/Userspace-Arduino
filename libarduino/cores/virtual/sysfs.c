@@ -155,13 +155,13 @@ int pwm_export(uint32_t pwm_pin)
 	}
 	switch(pwm_pin){
 	case 31:
-			fprintf(fd,"0");
-			break;
-	case 51:
 			fprintf(fd,"1");
 			break;
-	case 7:
+	case 51:
 			fprintf(fd,"2");
+			break;
+	case 7:
+			fprintf(fd,"0");
 			break;
 	}
 	fclose(fd);

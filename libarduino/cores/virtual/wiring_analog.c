@@ -48,17 +48,6 @@ int analogWrite(uint8_t pin,uint32_t value)
 		printf("%d %d \n",pin,value);
 		switch(pin){
 		case 3: 
-				sysfs_read("/sys/class/pwm/pwm0/","run",prev);
-				pr=atoi(prev);
-				if(pr==1)
-						sysfs_write("/sys/class/pwm/pwm0/", "run",0); 
-				if(value){
-						sysfs_write("/sys/class/pwm/pwm0/", "duty_ns",value); 
-						sysfs_write("/sys/class/pwm/pwm0/", "period_ns",20000); 
-						sysfs_write("/sys/class/pwm/pwm0/", "run",1); 
-				}
-				break;
-		case 5: 
 				sysfs_read("/sys/class/pwm/pwm1/","run",prev);
 				pr=atoi(prev);
 				if(pr==1)
@@ -69,7 +58,7 @@ int analogWrite(uint8_t pin,uint32_t value)
 						sysfs_write("/sys/class/pwm/pwm1/", "run",1); 
 				}
 				break;
-		case 6: 
+		case 5: 
 				sysfs_read("/sys/class/pwm/pwm2/","run",prev);
 				pr=atoi(prev);
 				if(pr==1)
@@ -78,6 +67,17 @@ int analogWrite(uint8_t pin,uint32_t value)
 						sysfs_write("/sys/class/pwm/pwm2/", "duty_ns",value); 
 						sysfs_write("/sys/class/pwm/pwm2/", "period_ns",20000); 
 						sysfs_write("/sys/class/pwm/pwm2/", "run",1); 
+				}
+				break;
+		case 6: 
+				sysfs_read("/sys/class/pwm/pwm0/","run",prev);
+				pr=atoi(prev);
+				if(pr==1)
+						sysfs_write("/sys/class/pwm/pwm0/", "run",0); 
+				if(value){
+						sysfs_write("/sys/class/pwm/pwm0/", "duty_ns",value); 
+						sysfs_write("/sys/class/pwm/pwm0/", "period_ns",20000); 
+						sysfs_write("/sys/class/pwm/pwm0/", "run",1); 
 				}
 				break;
 		}
