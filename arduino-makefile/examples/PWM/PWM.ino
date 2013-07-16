@@ -7,21 +7,25 @@ void setup() {
 /* pinMode(5,OUTPUT); */
 /* pinMode(6,OUTPUT); */
 
+analogWrite(3,0);
+analogWrite(5,0);
+analogWrite(6,0);
+
 }
 
 void loop() {
-		analogWrite(3,10000);
-		delay(1000);
-		analogWrite(3,0);
-		delay(1000);
 
-		/* analogWrite(5,10000); */
-		/* delay(1000); */
-		/* analogWrite(5,0); */
-		/* delay(1000); */
+int i=0;
 
-		/* analogWrite(6,10000); */
-		/* delay(1000); */
-		/* analogWrite(6,0); */
-		/* delay(1000); */
+
+for (i = 0 ; i < 41 ; i++ ) {
+		analogWrite(6,(i*500));
+		delay(50);
+}
+
+for (i = 40 ; i > -1 ; i-- ) {
+		analogWrite(6,(i*500));
+		delay(50);
+}
+
 }
