@@ -43,46 +43,36 @@ uint32_t analogRead(uint32_t pin)
 }
 int analogWrite(uint8_t pin,uint32_t value)
 {
-		int pr;
-		char prev[10];
-		printf("%d %d \n",pin,value);
-		switch(pin){
-		case 3: 
-				sysfs_read("/sys/class/pwm/pwm1/","run",prev);
-				pr=atoi(prev);
-				if(pr==1)
-						sysfs_write("/sys/class/pwm/pwm1/", "run",0); 
-				if(value){
-						sysfs_write("/sys/class/pwm/pwm1/", "duty_ns",value); 
-						sysfs_write("/sys/class/pwm/pwm1/", "period_ns",20000); 
-						sysfs_write("/sys/class/pwm/pwm1/", "run",1); 
-				}
-				break;
-		case 5: 
-				sysfs_read("/sys/class/pwm/pwm2/","run",prev);
-				pr=atoi(prev);
-				if(pr==1)
-						sysfs_write("/sys/class/pwm/pwm2/", "run",0); 
-				if(value){
-						sysfs_write("/sys/class/pwm/pwm2/", "duty_ns",value); 
-						sysfs_write("/sys/class/pwm/pwm2/", "period_ns",20000); 
-						sysfs_write("/sys/class/pwm/pwm2/", "run",1); 
-				}
-				break;
-		case 6: 
-				sysfs_read("/sys/class/pwm/pwm0/","run",prev);
-				pr=atoi(prev);
-				if(pr==1)
-						sysfs_write("/sys/class/pwm/pwm0/", "run",0); 
-				if(value){
-						sysfs_write("/sys/class/pwm/pwm0/", "duty_ns",value); 
-						sysfs_write("/sys/class/pwm/pwm0/", "period_ns",20000); 
-						sysfs_write("/sys/class/pwm/pwm0/", "run",1); 
-				}
-				break;
-		}
+	int pr;
+	char prev[10];
+	char buf[MAX_BUF];
+	printf("%d %d \n",pin,value);
+	switch(pin){
+	case 3: 
+		snprintf(buf, sizeof(buf),"/sys/class/pwm/pwm%d/",1);
+		break;
+	case 5: 
+		snprintf(buf, sizeof(buf),"/sys/class/pwm/pwm%d/",2);
+		break;
+	case 6:
+		snprintf(buf, sizeof(buf),"/sys/class/pwm/pwm%d/",0);
+		break;
+	}
 
-		return pin;		
+	sysfs_read(buf,"run",prev);
+	pr=atoi(prev);
+
+	if(pr==1)
+		sysfs_write(buf, "run",0);
+
+	sysfs_write(buf, "duty_ns",value);
+	sysfs_write(buf, "period_ns",20000);
+	sysfs_write(buf, "run",1);
+
+	if(!value)
+		sysfs_write(buf, "run",0);
+
+	return pin;
 }
 #ifdef __cplusplus
 }
