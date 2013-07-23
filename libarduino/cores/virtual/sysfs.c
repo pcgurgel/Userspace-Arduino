@@ -120,16 +120,6 @@ int gpio_unexport(uint32_t gpio_pin)
 	return gpio_pin;
 }
 
-void delay(unsigned long ms)
-{
-	usleep(ms*1000);
-}
-
-void delayMicroseconds(unsigned int us)
-{
-	usleep(us);
-}
-
 int gpio_setdirection(uint32_t gpio_pin, const char* direction)
 {
 	FILE* fd;
