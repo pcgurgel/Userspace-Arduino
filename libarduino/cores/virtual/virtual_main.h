@@ -6,7 +6,7 @@
 #include <math.h>
 #include <inttypes.h>
 #include "sysfs.h"
-
+#include "WMath.h"
 #ifdef __cplusplus
 extern "C"{
 #endif
