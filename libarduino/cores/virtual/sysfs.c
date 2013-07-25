@@ -75,13 +75,13 @@ int sysfs_gpio_getvalue(uint8_t pin)
 
 /* sysfs_adc_getvalue
  * Gets a value from the sysfs adc entries
- * Returns a value on the scale of (0 to 1799999)
+ * Returns a value on the scale of (0 to 4095)
  */
 uint32_t sysfs_adc_getvalue(uint32_t channel)
 {
-	char buf[MAX_BUF], channelname[5], value[8];
+	char buf[MAX_BUF], channelname[20], value[8];
 	snprintf(buf, sizeof(buf), SYSFS_ADC_DIR"/");
-	snprintf(channelname, sizeof(channelname), "AIN%d", channel);
+	snprintf(channelname, sizeof(channelname), "in_voltage%d_raw", channel);
 	sysfs_read(buf, channelname, value);
 	return atol(value);
 }
