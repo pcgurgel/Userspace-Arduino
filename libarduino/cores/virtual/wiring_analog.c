@@ -34,8 +34,8 @@ uint32_t analogRead(uint32_t pin)
 	if (g_APinDescription[pin].pinType == ANALOG) {
 		value = sysfs_adc_getvalue(g_APinDescription[pin].analogChannel);
 		/* Make a scale change from (0 to 1799999) to (0 to 1023) */
-		value = value*1024;
-		value = value/1800000;
+		value = value*1023;
+		value = value/4095;
 		return value;
 	}
 	else
