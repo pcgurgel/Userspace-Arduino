@@ -45,7 +45,7 @@
                     shiftOut(DATA,CLOCK,MSBFIRST,~(ledCharSet[i]));
                     digitalWrite(LATCH,1);
                     i++;
-                    if(i==10){
+                    if(i>=10){
                         i = 0;
                     }
             delay(250);
