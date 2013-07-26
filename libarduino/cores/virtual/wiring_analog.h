@@ -23,6 +23,7 @@
  extern "C" {
 #endif
 
+void analogReadResolution(uint32_t res);
 uint32_t analogRead(uint32_t pin);
 int analogWrite(uint8_t pin, uint32_t value);
 #ifdef __cplusplus

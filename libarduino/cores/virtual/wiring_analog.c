@@ -28,19 +28,36 @@
 extern "C" {
 #endif
 
+
+static uint32_t _readResolution = 10;
+
+void analogReadResolution(uint32_t res)
+{
+	_readResolution = res;
+}
+
 uint32_t analogRead(uint32_t pin)
 {
 	uint32_t value;
 	if (g_APinDescription[pin].pinType == ANALOG) {
 		value = sysfs_adc_getvalue(g_APinDescription[pin].analogChannel);
-		/* Make a scale change from (0 to 1799999) to (0 to 1023) */
-		value = value*1023;
-		value = value/4095;
-		return value;
+		/* Make a (default) scale change from (0 to 4095) to (0 to 1023)
+		 * or whatever resolution is specified in _readResolution
+		 */
+		if (_readResolution < 12) {
+			value = (value << _readResolution) - value;
+			value = value/4095;
+			return value;
+		} else {
+			 /* We currently don't have more than 12 bits */
+			value = value << (_readResolution - 12);
+			return value;
+		}
 	}
 	else
 		return 0;
 }
+
 int analogWrite(uint8_t pin,uint32_t value)
 {
 	int pr;
