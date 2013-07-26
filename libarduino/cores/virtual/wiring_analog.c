@@ -46,6 +46,8 @@ int analogWrite(uint8_t pin,uint32_t value)
 	int pr;
 	char prev[10];
 	char buf[MAX_BUF];
+	value=value*20000;
+	value=value/256;
 	printf("%d %d \n",pin,value);
 	switch(pin){
 	case 3: 
