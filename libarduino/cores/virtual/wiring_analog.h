@@ -26,6 +26,7 @@
 void analogReadResolution(uint32_t res);
 uint32_t analogRead(uint32_t pin);
 int analogWrite(uint8_t pin, uint32_t value);
+void analogWriteResolution(uint32_t res);
 #ifdef __cplusplus
 }
 #endif

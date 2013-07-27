@@ -30,10 +30,14 @@ extern "C" {
 
 
 static uint32_t _readResolution = 10;
-
+static uint32_t _writeResolution = 8;
 void analogReadResolution(uint32_t res)
 {
 	_readResolution = res;
+}
+void analogWriteResolution(uint32_t res)
+{
+		_writeResolution=res;
 }
 
 uint32_t analogRead(uint32_t pin)
@@ -64,7 +68,7 @@ int analogWrite(uint8_t pin,uint32_t value)
 	char prev[10];
 	char buf[MAX_BUF];
 	value=value*20000;
-	value=value/256;
+	value=value/pow(2,_writeResolution);
 	printf("%d %d \n",pin,value);
 	switch(pin){
 	case 3: 
