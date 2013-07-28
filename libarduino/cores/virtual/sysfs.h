@@ -40,8 +40,6 @@ int sysfs_gpio_getvalue(uint8_t pin);
 uint32_t sysfs_adc_getvalue(uint32_t channel);
 int gpio_export(uint32_t gpio_pin);
 int gpio_unexport(uint32_t gpio_pin);
-void delay(unsigned long ms);
-void delayMicroseconds(unsigned int us);
 int gpio_setdirection(uint32_t gpio_pin, const char* direction);
 int pwm_export(uint32_t pwm_pin);
 
