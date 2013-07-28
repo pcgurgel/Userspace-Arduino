@@ -1,5 +1,3 @@
-/* -*- mode: jde; c-basic-offset: 2; indent-tabs-mode: nil -*- */
-
 /*
   Part of the Wiring project - http://wiring.org.co
   Copyright (c) 2004-06 Hernando Barragan
@@ -22,30 +20,35 @@
   
   $Id$
 */
+extern "C" {
+	#include <stdlib.h>
+	#include <stdint.h>
+	#include <inttypes.h>
+}
 #include "WMath.h"
-// void randomSeed(unsigned int seed)
-// {
-//   if (seed != 0) {
-//     srandom(seed);
-//   }
-// }
 
-// long random(long howbig)
-// {
-//   if (howbig == 0) {
-//     return 0;
-//   }
-//   return random() % howbig;
-// }
+void randomSeed(uint32_t dwSeed)
+{
+	if (dwSeed != 0)
+		srand(dwSeed);
+}
 
-// long random(long howsmall, long howbig)
-// {
-//   if (howsmall >= howbig) {
-//     return howsmall;
-//   }
-//   long diff = howbig - howsmall;
-//   return random(diff) + howsmall;
-// }
+long random(long howbig)
+{
+	if (howbig == 0) {
+		return 0;
+	}
+	return rand() % howbig;
+}
+
+long random(long howsmall, long howbig)
+{
+	if (howsmall >= howbig) {
+		return howsmall;
+	}
+	long diff = howbig - howsmall;
+		return random(diff) + howsmall;
+}
 
 long map(long x, long in_min, long in_max, long out_min, long out_max)
 {

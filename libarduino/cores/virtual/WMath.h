@@ -21,13 +21,10 @@
 #ifndef _WMATH_
 #define _WMATH_
 
-#ifdef __cplusplus
- extern "C" {
-#endif
+void randomSeed(uint32_t dwSeed);
+long random(long howbig);
+long random(long howsmall, long howbig);
 long map(long,long ,long ,long,long);
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* _WMATH__ */
 
