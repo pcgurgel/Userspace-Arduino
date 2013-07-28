@@ -6,7 +6,6 @@
 #include <math.h>
 #include <inttypes.h>
 #include "sysfs.h"
-#include "WMath.h"
 #ifdef __cplusplus
 extern "C"{
 #endif
@@ -39,6 +38,7 @@ extern PinDescription g_APinDescription[] ;
 #ifdef __cplusplus
 }
 #include "HardwareSerial.h"
+#include "WMath.h"
 #endif
 
 
