@@ -1,5 +1,5 @@
 /*
-  sysfs.c 
+  sysfs.c
 
   Copyright (c) 2013 Anuj Deshpande
 
@@ -18,7 +18,6 @@
   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
   Boston, MA  02111-1307  USA
 
-  $Id$
 */
 #include "sysfs.h"
 #include <stdio.h>
@@ -28,32 +27,32 @@
 #include <unistd.h>
 #include <time.h>
 
-int sysfs_read(const char* path, const char* filename, char* value)
+int sysfs_read(const char *path, const char *filename, char *value)
 {
-	FILE* fd;
+	FILE *fd;
 	char buf[MAX_BUF];
-	snprintf(buf, sizeof(buf),"%s%s",path,filename);
-	fd=fopen(buf,"r");
-	if(fd==NULL){
-		printf("\nsysfs_read: Error opening file %s",buf);
+	snprintf(buf, sizeof(buf), "%s%s", path, filename);
+	fd = fopen(buf, "r");
+	if (fd == NULL) {
+		printf("\nsysfs_read: Error opening file %s", buf);
 		return -1;
 	}
-	fscanf(fd,"%s",value);
+	fscanf(fd, "%s", value);
 	fclose(fd);
 	return 0;
 }
 
-int sysfs_write(const char* path, const char* filename,int value)
+int sysfs_write(const char *path, const char *filename, int value)
 {
-	FILE* fd;
+	FILE *fd;
 	char buf[MAX_BUF];
-	snprintf(buf, sizeof(buf),"%s%s",path,filename);
-	fd = fopen(buf,"w");
-	if (fd==NULL) {
-		printf("\nsysfs_write: Error opening file %s",buf);
+	snprintf(buf, sizeof(buf), "%s%s", path, filename);
+	fd = fopen(buf, "w");
+	if (fd == NULL) {
+		printf("\nsysfs_write: Error opening file %s", buf);
 		return -1;
 	}
-	fprintf(fd,"%d",value);
+	fprintf(fd, "%d", value);
 	fclose(fd);
 	return 0;
 }
@@ -95,63 +94,63 @@ void sysfs_led_setvalue(uint8_t led, uint8_t value)
 
 int gpio_export(uint32_t gpio_pin)
 {
-	FILE* fd;
-	fd=fopen("/sys/class/gpio/export","w");
-	if (fd==NULL) {
+	FILE *fd;
+	fd = fopen("/sys/class/gpio/export", "w");
+	if (fd == NULL) {
 		printf("\ngpio_export: File already open");
-		return gpio_pin;//file already open
+		return gpio_pin;
 	}
 
-	fprintf(fd,"%d",gpio_pin);
+	fprintf(fd, "%d", gpio_pin);
 	fclose(fd);
 	return gpio_pin;
 }
 
 int gpio_unexport(uint32_t gpio_pin)
 {
-	FILE* fd;
-	fd=fopen("/sys/class/gpio/unexport","w");
-	if (fd==NULL) {
+	FILE *fd;
+	fd = fopen("/sys/class/gpio/unexport", "w");
+	if (fd == NULL) {
 		printf("\ngpio_unexport: Error opening file");
 		return -1;
 	}
-	fprintf(fd,"%d",gpio_pin);
+	fprintf(fd, "%d", gpio_pin);
 	fclose(fd);
 	return gpio_pin;
 }
 
-int gpio_setdirection(uint32_t gpio_pin, const char* direction)
+int gpio_setdirection(uint32_t gpio_pin, const char *direction)
 {
-	FILE* fd;
+	FILE *fd;
 	char buf[MAX_BUF];
-	snprintf(buf, sizeof(buf),"/sys/class/gpio/gpio%d/direction",gpio_pin);
-	fd=fopen(buf,"w");
-	if (fd==NULL) {
-		printf("\ngpio_setdirection: Error opening file %s",buf);
+	snprintf(buf, sizeof(buf), "/sys/class/gpio/gpio%d/direction", gpio_pin);
+	fd = fopen(buf, "w");
+	if (fd == NULL) {
+		printf("\ngpio_setdirection: Error opening file %s", buf);
 		return -1;
 	}
-	fprintf(fd,"%s",direction);
+	fprintf(fd, "%s", direction);
 	fclose(fd);
 	return gpio_pin;
 }
 
 int pwm_export(uint32_t pwm_pin)
 {
-	FILE* fd;
-	fd=fopen("/sys/class/pwm/export","w");
-	if (fd==NULL) {
+	FILE *fd;
+	fd = fopen("/sys/class/pwm/export", "w");
+	if (fd == NULL) {
 		printf("\npwm_export: Error opening file");
 		return -1;
 	}
-	switch(pwm_pin){
+	switch (pwm_pin) {
 	case 31:
-			fprintf(fd,"1");
+			fprintf(fd, "1");
 			break;
 	case 51:
-			fprintf(fd,"2");
+			fprintf(fd, "2");
 			break;
 	case 7:
-			fprintf(fd,"0");
+			fprintf(fd, "0");
 			break;
 	}
 	fclose(fd);

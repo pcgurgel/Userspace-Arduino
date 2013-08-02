@@ -19,7 +19,6 @@
   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
   Boston, MA  02111-1307  USA
 
-  $Id$
 */
 
 #include <stdio.h>
@@ -29,11 +28,11 @@ unsigned long millis()
 {
 
 	printf("millis() called!\n");
-
 	return 1;
 }
 
-unsigned long micros() {
+unsigned long micros()
+{
 	printf("micros() called!\n");
 	return 1;
 }

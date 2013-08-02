@@ -22,7 +22,6 @@
 
   Modified 28 September 2010 by Mark Sproul
 
-  $Id: wiring.c 248 2007-02-03 15:36:30Z mellis $
 */
 
 #include "wiring_digital.h"
@@ -31,19 +30,19 @@
 void pinMode(uint8_t pin, uint8_t mode)
 {
 	if (g_APinDescription[pin].pinType == GPIO) {
-		if(mode == INPUT)
+		if (mode == INPUT)
 			gpio_setdirection(g_APinDescription[pin].gpioPin, "in");
 		else
 			gpio_setdirection(g_APinDescription[pin].gpioPin, "out");
-	} else
-		return;
+	}
+	return;
 }
 
 void digitalWrite(uint8_t pin, uint8_t val)
 {
 	if (g_APinDescription[pin].pinType == GPIO)
 		sysfs_gpio_setvalue(g_APinDescription[pin].gpioPin, val);
-	else if(g_APinDescription[pin].pinType == LED)
+	else if (g_APinDescription[pin].pinType == LED)
 		sysfs_led_setvalue((g_APinDescription[pin].headerPin - 21), val);
 	else
 		return;

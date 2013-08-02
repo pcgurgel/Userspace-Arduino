@@ -15,8 +15,7 @@
   Public License along with this library; if not, write to the
   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
   Boston, MA  02111-1307  USA
-  
-  $Id$
+
 */
 #ifndef _WMATH_
 #define _WMATH_
@@ -24,7 +23,7 @@
 void randomSeed(uint32_t dwSeed);
 long random(long howbig);
 long random(long howsmall, long howbig);
-long map(long,long ,long ,long,long);
+long map(long, long , long , long, long);
 
 #endif /* _WMATH__ */
 
