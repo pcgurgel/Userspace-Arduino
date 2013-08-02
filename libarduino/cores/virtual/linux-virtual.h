@@ -31,7 +31,8 @@ extern "C"{
 #endif
 #define abs(x) ((x) > 0 ? (x) : -(x))
 
-#define constrain(amt, low, high) ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)))
+#define constrain(amt, low, high) ((amt) < (low) ? \
+				(low) : ((amt) > (high) ? (high) : (amt)))
 #define round(x) ((x) >= 0 ? (long)((x)+0.5) : (long)((x)-0.5))
 #define radians(deg) ((deg) * DEG_TO_RAD)
 #define degrees(rad) ((rad) * RAD_TO_DEG)
@@ -43,7 +44,8 @@ extern "C"{
 #define bitRead(value, bit) (((value) >> (bit)) & 0x01)
 #define bitSet(value, bit) ((value) |= (1UL << (bit)))
 #define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
-#define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
+#define bitWrite(value, bit, bitvalue) (bitvalue ? \
+				bitSet(value, bit) : bitClear(value, bit))
 #define bit(b) (1UL << (b))
 
 #ifdef __cplusplus

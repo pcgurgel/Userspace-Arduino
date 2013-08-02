@@ -81,13 +81,13 @@ PinDescription g_APinDescription[]=
   //8
   { P9_19,   13,  I2C  }, // I2C2_SCL
   { P9_20,   12,  I2C  }, // I2C2_SDA
-  
+
   // 10
   { P9_17,    5,  GPIO  }, // SPI0_CSO
   { P9_18,    4,  GPIO  }, // MOSI
   { P9_21,    3,  SPI   }, // MISO
   { P9_22,    2,  GPIO  }, // SCK
-  
+
   // 14 .. 17 - USR LEDs
   { USR0,    53,  LED  },
   { USR1,    86,  LED  },

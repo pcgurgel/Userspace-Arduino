@@ -29,32 +29,30 @@
 
 #include "virtual_main.h"
 #ifdef __cplusplus
-//#include "UARTClass.h"
-//#include "USARTClass.h"
 #endif
 
 #ifdef __cplusplus
 extern "C"{
-#endif // __cplusplus
+#endif /* __cplusplus */
 
 /*----------------------------------------------------------------------------
  *        Pins
  *----------------------------------------------------------------------------*/
 
-// Number of pins defined in PinDescription array
+/* Number of pins defined in PinDescription array */
 #define PINS_COUNT           (25u)
 
 /* Mapping pins to pin numbers in userspace */
 
-//Header Pins
-//#define P8_01  DGND
-//#define P8_02  DGND
+/* Header Pins */
+/* #define P8_01  DGND */
+/* #define P8_02  DGND */
 #define P8_03 (6u)
 #define P8_04 (7u)
 #define P8_05 (2u)
 #define P8_06 (3u)
-#define P8_07 (36u)  
-#define P8_08 (37u) 
+#define P8_07 (36u)
+#define P8_08 (37u)
 #define P8_09 (39u)
 #define P8_10 (38u)
 #define P8_11 (13u)
@@ -94,16 +92,16 @@ extern "C"{
 #define P8_45 (40u)
 #define P8_46 (41u)
 
-//#define P9_01 GND
-//#define P9_02 GND
-//#define P9_03 3_3V
-//#define P9_04 3_3V 
-//#define P9_05 VDD_5V
-//#define P9_06 VDD_5V
-//#define P9_07 SYS_5V  
-//#define P9_08 SYS_5V 
-//#define P9_09 PWR_BUT
-//#define P9_10 SYS_RSTn
+/* #define P9_01 GND */
+/* #define P9_02 GND */
+/* #define P9_03 3_3V */
+/* #define P9_04 3_3V */
+/* #define P9_05 VDD_5V */
+/* #define P9_06 VDD_5V */
+/* #define P9_07 SYS_5V */
+/* #define P9_08 SYS_5V */
+/* #define P9_09 PWR_BUT */
+/* #define P9_10 SYS_RSTn */
 #define P9_11 (28u)
 #define P9_12 (30u)
 #define P9_13 (29u)
@@ -125,9 +123,9 @@ extern "C"{
 #define P9_29 (101u)
 #define P9_30 (102u)
 #define P9_31 (100u)
-//#define P9_32 VADC
+/* #define P9_32 VADC */
 #define P9_33 AIN4
-//#define P9_34 AGND
+/* #define P9_34 AGND */
 #define P9_35 AIN6
 #define P9_36 AIN5
 #define P9_37 AIN2
@@ -135,16 +133,16 @@ extern "C"{
 #define P9_39 AIN0
 #define P9_40 AIN1
 #define P9_41A (109u)
-//#define P9_41B GPIO3_20
+/* #define P9_41B GPIO3_20 */
 #define P9_42A (89u)
-//#define P9_42B (u)
-//#define P9_43 GND
-//#define P9_44 GND
-//#define P9_45 GND
-//#define P9_46 GND
+/* #define P9_42B (u) */
+/* #define P9_43 GND */
+/* #define P9_44 GND */
+/* #define P9_45 GND */
+/* #define P9_46 GND */
 
-//USR LEDs
-#define USR0  (21u) 
+/* USR LEDs */
+#define USR0  (21u)
 #define USR1  (22u)
 #define USR2  (23u)
 #define USR3  (24u)
@@ -152,7 +150,7 @@ extern "C"{
 /*
  * Analog Pins
  */
-#define AIN0 (0xffff) // temporarily assign an unallocated value 
+#define AIN0 (0xffff) /* temporarily assign an unallocated value */
 #define AIN1 (0xfffe)
 #define AIN2 (0xfffd)
 #define AIN3 (0xfffc)
@@ -162,7 +160,7 @@ extern "C"{
 
 #define ANALOG_PIN (0xffff)
 
-void load_cape(const char* capename);
+void load_cape(const char *capename);
 
 #ifdef __cplusplus
 }

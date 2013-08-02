@@ -11,25 +11,23 @@ extern "C"{
 #endif
 
 /* Definition and types for pins */
-typedef enum _PinTypes
-{
-  GPIO,
-  PWM,
-  SPI,
-  UART,
-  I2C,
-  ANALOG,
-  LED
+typedef enum _PinTypes {
+	GPIO,
+	PWM,
+	SPI,
+	UART,
+	I2C,
+	ANALOG,
+	LED
 } PinTypes ;
 
 /* Types used for the tables below */
-typedef struct _PinDescription
-{
-  uint32_t headerPin ;
-  uint32_t gpioPin ;
-  PinTypes pinType ;
-  uint32_t analogChannel ;
-  uint32_t pinOffset ;
+typedef struct _PinDescription {
+	uint32_t headerPin ;
+	uint32_t gpioPin ;
+	PinTypes pinType ;
+	uint32_t analogChannel ;
+	uint32_t pinOffset ;
 } PinDescription ;
 
 /* Pins table to be instanciated into variant.cpp */
