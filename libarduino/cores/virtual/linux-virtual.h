@@ -18,9 +18,19 @@ extern "C"{
 #define DEG_TO_RAD 0.017453292519943295769236907684886
 #define RAD_TO_DEG 57.295779513082320876798154814105
 
+#ifndef min
 #define min(a,b) ((a)<(b)?(a):(b))
+#endif
+
+#ifndef max
 #define max(a,b) ((a)>(b)?(a):(b))
+#endif
+
+#ifdef abs
+#undef abs
+#endif 
 #define abs(x) ((x)>0?(x):-(x))
+
 #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 #define round(x) ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
 #define radians(deg) ((deg)*DEG_TO_RAD)
