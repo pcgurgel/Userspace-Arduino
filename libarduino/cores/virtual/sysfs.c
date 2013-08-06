@@ -19,6 +19,7 @@
   Boston, MA  02111-1307  USA
 
 */
+
 #include "sysfs.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,11 +35,12 @@ int sysfs_read(const char *path, const char *filename, char *value)
 	snprintf(buf, sizeof(buf), "%s%s", path, filename);
 	fd = fopen(buf, "r");
 	if (fd == NULL) {
-		printf("\nsysfs_read: Error opening file %s", buf);
+		perror(buf);
 		return -1;
 	}
 	fscanf(fd, "%s", value);
-	fclose(fd);
+	if (fclose(fd) != 0)
+		perror(buf);
 	return 0;
 }
 
@@ -49,11 +51,12 @@ int sysfs_write(const char *path, const char *filename, int value)
 	snprintf(buf, sizeof(buf), "%s%s", path, filename);
 	fd = fopen(buf, "w");
 	if (fd == NULL) {
-		printf("\nsysfs_write: Error opening file %s", buf);
+		perror(buf);
 		return -1;
 	}
 	fprintf(fd, "%d", value);
-	fclose(fd);
+	if (fclose(fd) != 0)
+		perror(buf);
 	return 0;
 }
 
@@ -97,12 +100,15 @@ int gpio_export(uint32_t gpio_pin)
 	FILE *fd;
 	fd = fopen("/sys/class/gpio/export", "w");
 	if (fd == NULL) {
-		printf("\ngpio_export: File already open");
+		fprintf(stderr, "Pin %d: ", gpio_pin);
+		perror("/gpio/export");
 		return gpio_pin;
 	}
-
 	fprintf(fd, "%d", gpio_pin);
-	fclose(fd);
+	if (fclose(fd) != 0) {
+		fprintf(stderr, "Pin %d: ", gpio_pin);
+		perror("/gpio/export");
+	}
 	return gpio_pin;
 }
 
@@ -111,11 +117,15 @@ int gpio_unexport(uint32_t gpio_pin)
 	FILE *fd;
 	fd = fopen("/sys/class/gpio/unexport", "w");
 	if (fd == NULL) {
-		printf("\ngpio_unexport: Error opening file");
+		fprintf(stderr, "Pin %d: ", gpio_pin);
+		perror("/gpio/unexport");
 		return -1;
 	}
 	fprintf(fd, "%d", gpio_pin);
-	fclose(fd);
+	if (fclose(fd) != 0) {
+		fprintf(stderr, "Pin %d: ", gpio_pin);
+		perror("/gpio/unexport");
+	}
 	return gpio_pin;
 }
 
@@ -126,11 +136,15 @@ int gpio_setdirection(uint32_t gpio_pin, const char *direction)
 	snprintf(buf, sizeof(buf), "/sys/class/gpio/gpio%d/direction", gpio_pin);
 	fd = fopen(buf, "w");
 	if (fd == NULL) {
-		printf("\ngpio_setdirection: Error opening file %s", buf);
+		fprintf(stderr, "Pin %d: ", gpio_pin);
+		perror(buf);
 		return -1;
 	}
 	fprintf(fd, "%s", direction);
-	fclose(fd);
+	if (fclose(fd) != 0) {
+		fprintf(stderr, "Pin %d: ", gpio_pin);
+		perror(buf);
+	}
 	return gpio_pin;
 }
 
@@ -139,7 +153,8 @@ int pwm_export(uint32_t pwm_pin)
 	FILE *fd;
 	fd = fopen("/sys/class/pwm/export", "w");
 	if (fd == NULL) {
-		printf("\npwm_export: Error opening file");
+		fprintf(stderr, "Pin %d: ", pwm_pin);
+		perror("/pwm/export");
 		return -1;
 	}
 	switch (pwm_pin) {
@@ -153,6 +168,9 @@ int pwm_export(uint32_t pwm_pin)
 			fprintf(fd, "0");
 			break;
 	}
-	fclose(fd);
+	if (fclose(fd) != 0) {
+		fprintf(stderr, "Pin %d: ", pwm_pin);
+		perror("/pwm/export");
+	}
 	return pwm_pin;
 }
