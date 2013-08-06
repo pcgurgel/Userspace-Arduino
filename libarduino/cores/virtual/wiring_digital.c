@@ -53,6 +53,6 @@ int digitalRead(uint8_t pin)
 	if (g_APinDescription[pin].pinType == GPIO)
 		return sysfs_gpio_getvalue(g_APinDescription[pin].gpioPin);
 	else
-		return -1;
+		return 0;
 }
 
