@@ -11,7 +11,7 @@
 #define _SPI_H
 class SPIClass {
 public:
-		static byte transfer(byte _data);
+		/* static byte transfer(byte _data); */
 		static void begin();
 		static void end();
 		static void setBitOrder(uint8_t);
