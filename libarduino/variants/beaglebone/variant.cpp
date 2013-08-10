@@ -85,7 +85,7 @@ PinDescription g_APinDescription[]=
   // 10
   { P9_17,    5,  GPIO  }, // SPI0_CSO
   { P9_18,    4,  GPIO  }, // MOSI
-  { P9_21,    3,  SPI   }, // MISO
+  { P9_21,    3,  _SPI   }, // MISO
   { P9_22,    2,  GPIO  }, // SCK
 
   // 14 .. 17 - USR LEDs

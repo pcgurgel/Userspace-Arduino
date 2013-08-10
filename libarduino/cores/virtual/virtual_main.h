@@ -14,7 +14,7 @@ extern "C"{
 typedef enum _PinTypes {
 	GPIO,
 	PWM,
-	SPI,
+	_SPI,
 	UART,
 	I2C,
 	ANALOG,
