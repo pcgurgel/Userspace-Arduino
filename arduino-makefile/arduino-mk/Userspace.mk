@@ -370,7 +370,7 @@ endif
 
 ########################################################################
 # Determine ARDUINO_LIBS automatically
-#
+ARDUINO_LIBS 	= 	$(ARDUINO_DIR)/libarduino/libraries/SPI
 ifndef ARDUINO_LIBS
     # automatically determine included libraries
     ARDUINO_LIBS += $(filter $(notdir $(wildcard $(ARDUINO_DIR)/libraries/*)), \
