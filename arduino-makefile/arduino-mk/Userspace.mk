@@ -362,7 +362,6 @@ ifeq ($(strip $(NO_CORE)),)
         CORE_OBJ_FILES  = $(CORE_C_SRCS:.c=.o) $(CORE_CPP_SRCS:.cpp=.o)
         CORE_OBJS       = $(patsubst $(USERSPACE_CORE_PATH)/%,  \
                 $(OBJDIR)/%,$(CORE_OBJ_FILES))
-        
     endif
 else
     $(call show_config_info,NO_CORE set so core library will not be built,[MANUAL])
@@ -370,15 +369,13 @@ endif
 
 ########################################################################
 # Determine ARDUINO_LIBS automatically
-ARDUINO_LIBS 	= 	$(ARDUINO_DIR)/libarduino/libraries/SPI
 ifndef ARDUINO_LIBS
     # automatically determine included libraries
-    ARDUINO_LIBS += $(filter $(notdir $(wildcard $(ARDUINO_DIR)/libraries/*)), \
-        $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(LOCAL_SRCS)))
-    ARDUINO_LIBS += $(filter $(notdir $(wildcard $(ARDUINO_SKETCHBOOK)/libraries/*)), \
+    ARDUINO_LIBS += $(filter $(notdir $(wildcard $(ARDUINO_DIR)/libarduino/libraries/*)), \
+       $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(LOCAL_SRCS)))
+    ARDUINO_LIBS += $(filter $(notdir $(wildcard $(ARDUINO_SKETCHBOOK)/libarduino/libraries/*)), \
         $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(LOCAL_SRCS)))
 endif
-
 
 ########################################################################
 # Include file to use for old .pde files
@@ -642,7 +639,7 @@ generate_assembly: $(OBJDIR)/$(TARGET).s
 
 generated_assembly: generate_assembly
 	@$(ECHO) "generated_assembly" target is deprecated. Use "generate_assembly" target instead
-	
+
 .PHONY:	all upload clean depends monitor disasm symbol_sizes generated_assembly generate_assembly
 
 # added - in the beginning, so that we don't get an error if the file is not present
