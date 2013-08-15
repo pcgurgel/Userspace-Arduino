@@ -11,6 +11,8 @@
 #define _SPI_H
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 class SPIClass {
 		int ret;
@@ -20,12 +22,12 @@ class SPIClass {
 		struct spi_ioc_transfer tr;
 public:
 		SPIClass();
-		static byte transfer(byte _data);
-		static void begin();
-		static void end();
-		static void setBitOrder(uint8_t);
-		static void setDataMode(uint8_t);
-		static void setClockDivider(uint8_t);
+		char transfer(char _data);
+		void begin();
+		void end();
+		void setBitOrder(uint8_t );
+		void setDataMode(uint8_t);
+		void setClockDivider(uint8_t);
 };
 extern SPIClass SPI;
 #endif

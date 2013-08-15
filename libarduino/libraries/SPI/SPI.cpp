@@ -32,7 +32,7 @@ void SPIClass::begin(){
 	perror("SPI_IOC_WR_BITS_PER_WORD not set");
 }
 
-byte SPIClass::transfer(byte data) {
+char SPIClass::transfer(char data) {
   ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
   if (ret < 1)
 	perror("SPI_IOC_MESSAGE not sent");
