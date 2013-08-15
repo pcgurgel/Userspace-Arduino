@@ -13,6 +13,7 @@
 #include <linux/spi/spidev.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <inttypes.h>
 
 class SPIClass {
 		int ret;
@@ -25,7 +26,7 @@ public:
 		char transfer(char _data);
 		void begin();
 		void end();
-		void setBitOrder(uint8_t );
+		void setBitOrder(uint8_t);
 		void setDataMode(uint8_t);
 		void setClockDivider(uint8_t);
 };

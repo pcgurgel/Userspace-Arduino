@@ -8,6 +8,7 @@
  * published by the Free Software Foundation.
  */
 #include <fcntl.h>
+#include <inttypes.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <linux/types.h>
@@ -27,7 +28,7 @@ SPIClass::SPIClass() {
 void SPIClass::begin(){
 
   fd=open(device,O_RDWR);
-  ret = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &bits);
+  ret = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &tr.bits_per_word);
   if (ret == -1)
 	perror("SPI_IOC_WR_BITS_PER_WORD not set");
 }
@@ -38,7 +39,8 @@ char SPIClass::transfer(char data) {
 	perror("SPI_IOC_MESSAGE not sent");
 
 }
-void SPIClass::setBitOrder(uint8_t bOrder){
+
+void SPIClass::setBitOrder(uint8_t bOrder) {
   if(bOrder == LSBFIRST) {
 	bitOrder=LSBFIRST;
   }
@@ -50,11 +52,11 @@ void SPIClass::setBitOrder(uint8_t bOrder){
 void SPIClass::setDataMode(uint8_t mode) {
   ret = ioctl(fd, SPI_IOC_WR_MODE, &mode);
   if (ret == -1)
-	perror(o"SPI_IOC_WR_MODE not set");
+	perror("SPI_IOC_WR_MODE not set");
 }
 
 void SPIClass::setClockDivider(uint8_t rate) {
-  ret = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed);
+  ret = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &rate);
   if (ret == -1)
 	perror("SPI_IOC_WR_MAX_SPEED_HZ not set");
 }
