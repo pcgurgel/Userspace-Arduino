@@ -6,6 +6,8 @@
 #include <math.h>
 #include <inttypes.h>
 #include "sysfs.h"
+#include "i2c.h"
+
 #ifdef __cplusplus
 extern "C"{
 #endif
