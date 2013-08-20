@@ -72,3 +72,40 @@ int i2c_setslave(int i2c_fd, uint8_t addr)
 	return 0;
 }
 
+int i2c_writebyte(int i2c_fd, uint8_t byte)
+{
+	if (i2c_smbus_write_byte(i2c_fd, byte ) < 0) {
+		perror("Failed to write byte to I2C slave");
+		return -1;	
+	}
+	return 0;
+}
+
+int i2c_writebytes(int i2c_fd, uint8_t *bytes, uint8_t length)
+{
+	if(i2c_smbus_write_i2c_block_data(i2c_fd, bytes[0], length-1, bytes+1) 
+									< 0) {
+		perror("Failed to write bytes to I2C slave");
+		return -1;
+	}
+	return 0;
+}
+
+int i2c_readbyte(int i2c_fd)
+{
+	int byte;
+	if ((byte = i2c_smbus_read_byte(i2c_fd)) < 0) {
+		// perror("Failed to read byte from I2C slave");
+		return -1;
+	}
+	return byte;
+}
+
+int i2c_readbytes(int i2c_fd, uint8_t *buf, int length)
+{
+	if (read(i2c_fd, buf, length) == length)
+		return -1;
+	else
+		return 0;
+}
+
