@@ -1,5 +1,5 @@
 /*
-  12 bit ADC - MCP3202
+  AT93C46 SPI EEPROM sample code
 
   created 19 Aug 2013
   by Anuj Deshpande
