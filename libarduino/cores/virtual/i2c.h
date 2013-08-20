@@ -1,8 +1,8 @@
 /*
  * i2c.h
- * 
+ *
  * Copyright (c) 2013 Parav Nagarsheth
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -28,6 +28,15 @@ extern "C"{
 #endif
 
 int i2c_getadapter(uint32_t i2c_bus_address);
+int i2c_openadapter(uint8_t i2c_adapter_nr);
+int i2c_setslave(int i2c_fd, uint8_t addr);
+int i2c_writebyte(int i2c_fd, uint8_t byte);
+int i2c_writebytes(int i2c_fd, uint8_t *bytes, uint8_t length);
+int i2c_readbyte(int i2c_fd);
+int i2c_readbytes(int i2c_fd, uint8_t *buf, int length);
+int i2c_readwrite(int i2c_fd);
+int i2c_add_to_buf(uint8_t addr, uint8_t rw, uint8_t *value, int length);
+
 #ifdef __cplusplus
 }
 #endif
