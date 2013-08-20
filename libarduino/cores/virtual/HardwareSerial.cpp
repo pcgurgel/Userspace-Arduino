@@ -70,9 +70,10 @@ void HardwareSerial::flush()
 printf("serial:calling flush()\n");
 }
 
-void HardwareSerial::write(uint8_t c)
+size_t HardwareSerial::write(uint8_t c)
 {
 printf("%c",c);
+return 0;
 }
 
 // Preinstantiate Objects //////////////////////////////////////////////////////

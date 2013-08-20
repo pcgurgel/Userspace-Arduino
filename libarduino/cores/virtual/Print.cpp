@@ -37,10 +37,11 @@ void Print::write(const char *str)
 }
 
 /* default implementation: may be overridden */
-void Print::write(const uint8_t *buffer, size_t size)
+size_t Print::write(const uint8_t *buffer, size_t size)
 {
   while (size--)
     write(*buffer++);
+  return 0;
 }
 
 void Print::print(const String &s)
