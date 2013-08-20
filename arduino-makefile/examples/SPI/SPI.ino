@@ -7,13 +7,13 @@
 
 #include<SPI.h>
 #define SS 4
-typedef uint_8 byte;
+
 void setup()
 {
   pinMode(SS,OUTPUT);
   SPI.begin();
-  SPI.setClockDivider(SPI_CLOCK_DIV8);
-  SPI.setDataMode(SPI_MODE0);
+  SPI.setClockDivider(200);
+  SPI.setDataMode(0);
   SPI.setBitOrder(MSBFIRST);
   digitalWrite(SS,LOW);
 
