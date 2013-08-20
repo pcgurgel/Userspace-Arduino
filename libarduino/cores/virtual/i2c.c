@@ -1,8 +1,8 @@
 /*
  * i2c.c - the i2c library
- * 
+ *
  * Copyright (c) 2013 Parav Nagarsheth
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -49,3 +49,26 @@ int i2c_getadapter(uint32_t i2c_bus_address)
 	}
 	return -1;
 }
+
+int i2c_openadapter(uint8_t i2c_adapter_nr)
+{
+	char buf[MAX_BUF];
+	int i2c_fd;
+	snprintf(buf, sizeof(buf), "/dev/i2c-%d", i2c_adapter_nr);
+	if ((i2c_fd = open(buf, O_RDWR)) < 1) {
+		perror("Failed to open adapter");
+		return -1;
+	}
+	return i2c_fd;
+}
+
+int i2c_setslave(int i2c_fd, uint8_t addr)
+{
+	if (ioctl(i2c_fd, I2C_SLAVE, addr) < 0) {
+		fprintf(stderr, "Failed to set slave address %d:", addr);		
+		perror("");
+		return -1;	
+	}
+	return 0;
+}
+
