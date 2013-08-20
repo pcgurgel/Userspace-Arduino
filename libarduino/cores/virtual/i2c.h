@@ -34,6 +34,8 @@ int i2c_writebyte(int i2c_fd, uint8_t byte);
 int i2c_writebytes(int i2c_fd, uint8_t *bytes, uint8_t length);
 int i2c_readbyte(int i2c_fd);
 int i2c_readbytes(int i2c_fd, uint8_t *buf, int length);
+int i2c_readwrite(int i2c_fd);
+int i2c_add_to_buf(uint8_t addr, uint8_t rw, uint8_t *value, int length);
 
 #ifdef __cplusplus
 }

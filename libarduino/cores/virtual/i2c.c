@@ -26,8 +26,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
 #define MAX_BUF 100
+
+struct i2c_msg i2c_buf[2];
+unsigned int i2c_buf_count = 0;
 
 int i2c_getadapter(uint32_t i2c_bus_address)
 {
@@ -35,11 +40,12 @@ int i2c_getadapter(uint32_t i2c_bus_address)
 	DIR *d;
 	struct dirent *dir;
 	int adapter_nr = -1;
-	snprintf(buf, sizeof(buf), "/sys/devices/ocp.2/%x.i2c", i2c_bus_address);
+	snprintf(buf, sizeof(buf), "/sys/devices/ocp.2/%x.i2c",
+							i2c_bus_address);
 	d = opendir(buf);
 	if (d) {
 		while ((dir = readdir(d)) != NULL) {
-			if (!strncmp("i2c", dir->d_name,3)) {
+			if (!strncmp("i2c", dir->d_name, 3)) {
 				sscanf(dir->d_name, "i2c-%d", &adapter_nr);
 				closedir(d);
 				return adapter_nr;
@@ -109,3 +115,28 @@ int i2c_readbytes(int i2c_fd, uint8_t *buf, int length)
 		return 0;
 }
 
+int i2c_readwrite(int i2c_fd)
+{
+	struct i2c_rdwr_ioctl_data packets;
+	packets.msgs = i2c_buf;
+	packets.nmsgs = i2c_buf_count;
+	if (ioctl(i2c_fd, I2C_RDWR, &packets) < 0) {
+		perror("Unable to send data");
+		i2c_buf_count = 0;
+		return -1;
+	}
+	i2c_buf_count = 0;
+	return 0;
+}
+
+int i2c_add_to_buf(uint8_t addr, uint8_t rw, uint8_t *value, int length)
+{
+	if(i2c_buf_count < 2) {
+		i2c_buf[i2c_buf_count].addr = addr;
+		i2c_buf[i2c_buf_count].flags = rw ? I2C_M_RD : 0;
+		i2c_buf[i2c_buf_count].len = length;
+		i2c_buf[i2c_buf_count].buf = (char *)value;
+		return ++i2c_buf_count;
+	} else
+		return -1;
+}
