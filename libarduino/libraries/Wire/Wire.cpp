@@ -65,7 +65,7 @@ uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop
 	if (quantity > BUFFER_LENGTH)
 		quantity = BUFFER_LENGTH;
 
-	if(!i2c_transfer) {
+	if(i2c_transfer) {
 	/* Need to perform a combined read/write operation
 	 */
 		i2c_transfer = 0;
