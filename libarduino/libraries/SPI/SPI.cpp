@@ -14,30 +14,33 @@
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
 #include "SPI.h"
-
-#define LSBFIRST 0
-#define MSBFIRST 1
+#include "linux-virtual.h"
 
 SPIClass SPI;
 SPIClass::SPIClass() {
   tr.len = 1;
   tr.speed_hz = 4000000 ; // default set to 4 Mhz
   tr.bits_per_word = 8;
-  device="/dev/spidev0.0";
+  device="/dev/spidev1.0";
 }
 void SPIClass::begin(){
 
   fd=open(device,O_RDWR);
+  if(fd < 0){
+	perror("Can't open device");
+	abort();
+  }
   ret = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &tr.bits_per_word);
   if (ret == -1)
 	perror("SPI_IOC_WR_BITS_PER_WORD not set");
 }
 
-char SPIClass::transfer(char data) {
-  ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
-  if (ret < 1)
-	perror("SPI_IOC_MESSAGE not sent");
+byte SPIClass::transfer(byte data) {
+  // ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
+  // if (ret < 1)
+  // 	perror("SPI_IOC_MESSAGE not sent");
 
+  return data;
 }
 
 void SPIClass::setBitOrder(uint8_t bOrder) {
@@ -55,7 +58,7 @@ void SPIClass::setDataMode(uint8_t mode) {
 	perror("SPI_IOC_WR_MODE not set");
 }
 
-void SPIClass::setClockDivider(uint8_t rate) {
+void SPIClass::setClockDivider(uint32_t rate) {
   ret = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &rate);
   if (ret == -1)
 	perror("SPI_IOC_WR_MAX_SPEED_HZ not set");
