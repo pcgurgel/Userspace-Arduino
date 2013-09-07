@@ -2,7 +2,8 @@
 #
 # Makefile for compiling Arduino sketches from command line
 # System part (i.e. project independent)
-# 
+# Copyright (C) 2013 Anuj Deshpande http://anujdeshpande.com
+#
 # Copyright (C) 2013 Parav http://github.com/meanbot, based on work by these 
 # awesome people:
 #
@@ -372,6 +373,7 @@ endif
 ARDUINO_LIBS	+=	$(ARDUINO_DIR)/libarduino/libraries/SPI
 ARDUINO_LIBS	+=	$(ARDUINO_DIR)/libarduino/libraries/Wire
 ARDUINO_LIBS	+=	$(ARDUINO_DIR)/libarduino/libraries/Stepper
+ARDUINO_LIBS	+=  $(ARDUINO_DIR)/libarduino/libraries/LiquidCrystal
 
 ifndef ARDUINO_LIBS
     # automatically determine included libraries
