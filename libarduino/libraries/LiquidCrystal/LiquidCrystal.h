@@ -2,7 +2,7 @@
 #define LiquidCrystal_h
 
 #include <inttypes.h>
-#include "Print.h"
+/* #include "Print.h" */
 
 // commands
 #define LCD_CLEARDISPLAY 0x01
@@ -82,7 +82,7 @@ public:
   virtual size_t write(uint8_t);
   void command(uint8_t);
   
-  using Print::write;
+  /* using Print::write; */
 private:
   void send(uint8_t, uint8_t);
   void write4bits(uint8_t);
