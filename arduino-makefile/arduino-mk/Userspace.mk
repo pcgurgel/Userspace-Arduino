@@ -464,7 +464,7 @@ $(call show_config_variable,USERSPACE_CORE_PATH,[DEFAULT])
 CFLAGS        += $(EXTRA_FLAGS) $(EXTRA_CFLAGS)
 CXXFLAGS      += $(EXTRA_FLAGS) $(EXTRA_CXXFLAGS)
 ASFLAGS       += -I. -x assembler-with-cpp
-LDFLAGS       += -Wl,--gc-sections $(EXTRA_FLAGS) $(EXTRA_CXXFLAGS)
+LDFLAGS       += -Wl,--gc-sections -lrt $(EXTRA_FLAGS) $(EXTRA_CXXFLAGS)
 SIZEFLAGS     ?= -C
 
 ifneq (,$(strip $(ARDUINO_LIBS)))
