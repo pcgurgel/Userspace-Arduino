@@ -29,14 +29,15 @@ struct timespec prog_start_time;
 
 unsigned long millis()
 {
-	printf("millis() called!\n");
-	return 1;
+	return micros()/1000;
 }
 
 unsigned long micros()
 {
-	printf("micros() called!\n");
-	return 1;
+	struct timespec gettime_now;
+	clock_gettime(CLOCK_MONOTONIC, &gettime_now);
+	return ((gettime_now.tv_sec - prog_start_time.tv_sec)*1000000 +
+			(gettime_now.tv_nsec - prog_start_time.tv_nsec)/1000);
 }
 
 void delay(unsigned long ms)
