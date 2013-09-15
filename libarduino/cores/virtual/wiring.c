@@ -24,9 +24,9 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <time.h>
+
 unsigned long millis()
 {
-
 	printf("millis() called!\n");
 	return 1;
 }
@@ -36,6 +36,7 @@ unsigned long micros()
 	printf("micros() called!\n");
 	return 1;
 }
+
 void delay(unsigned long ms)
 {
 	usleep(ms*1000);
@@ -48,11 +49,11 @@ void delayMicroseconds(unsigned int us)
 	long int time_difference;
 	struct timespec gettime_now;
 
-	clock_gettime(CLOCK_REALTIME, &gettime_now);
+	clock_gettime(CLOCK_MONOTONIC, &gettime_now);
 	start_time = gettime_now.tv_nsec;		//Get nS value
 	while (1)
 	{
-		clock_gettime(CLOCK_REALTIME, &gettime_now);
+		clock_gettime(CLOCK_MONOTONIC, &gettime_now);
 		time_difference = gettime_now.tv_nsec - start_time;
 		if (time_difference < 0)
 			time_difference += 1000000000;				//(Rolls over every 1 second)
@@ -61,3 +62,4 @@ void delayMicroseconds(unsigned int us)
 	}
 
 }
+
