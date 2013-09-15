@@ -35,6 +35,8 @@ typedef struct _PinDescription {
 /* Pins table to be instanciated into variant.cpp */
 extern PinDescription g_APinDescription[] ;
 
+/* Program start time for millis and micros. Instantiated in main.cpp */
+extern struct timespec prog_start_time;
 #ifdef __cplusplus
 }
 #include "HardwareSerial.h"

@@ -25,6 +25,8 @@
 #include <unistd.h>
 #include <time.h>
 
+struct timespec prog_start_time;
+
 unsigned long millis()
 {
 	printf("millis() called!\n");
