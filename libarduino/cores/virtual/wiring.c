@@ -21,7 +21,7 @@
 
 */
 
-#include <stdio.h>
+#include <wiring.h>
 #include <unistd.h>
 #include <time.h>
 
