@@ -42,7 +42,25 @@ skip to [development on a Beaglebone Black](#development-on-a-beaglebone-black)*
         
 ### Development on a Beaglebone Black
 
-**TO DO**
+    	git clone http://github.com/prpplague/Userspace-Arduino.git
+
+Change directory to the examples/BlinkUserspace folder in the downloaded project	
+
+       cd Userspace-Arduino/arduino-makefile/examples/BlinkUserspace
+
+Compile the code
+	
+       make
+
+Change to new directory that is created, which contains the executable file
+
+       cd build-userspace
+
+Execute code
+
+       ./BlinkUserspace.elf
+
+You will now see USR LED 1 blinking at one second intervals. Press Ctrl-C to break from the loop. 	
 
 ## About
 
