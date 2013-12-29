@@ -22,12 +22,19 @@
 		"P9.14",	/* pwm: ehrpwm1A */
 		"P9.16",	/* pwm: ehrpwm1B */
 		"P9.42",	/* pwm: eCAP0_in_PWM0_out */
+		"P9.17",	/* shift: gpio0_5 LATCH */
+		"P9.18",	/* shift: gpio0_4 SERIAL */
+		"P9.22",	/* shift: gpio0_2 CLOCK */
 		/* the hardware IP uses */
 		"tscadc",
 		"gpio0_23",
 		"ehrpwm1A",
 		"ehrpwm1B",
-		"eCAP0_in_PWM0_out";
+		"eCAP0_in_PWM0_out",
+		"gpio0_5",
+		"gpio0_4",
+		"gpio0_2";
+
 	fragment@0 {
 		target = <&am33xx_pinmux>;
 		__overlay__ {
@@ -48,6 +55,9 @@
 			bacon_gpiohelp_pins: pinmux_bacon_gpio_helper_pins {
 				pinctrl-single,pins = <
 					0x020 0x2f	/* gpmc_ad8.gpio0_22, INPUT | PULLDIS | MODE7 */
+					0x15c 0x0f 	/* P9 17 spi0_cs0.gpio0_5 | MODE7 | OUTPUT */
+					0x158 0x0f 	/* P9 18 spi0_d1.gpio0_4 | MODE7 | OUTPUT */
+					0x150 0x0f 	/* P9 22 spi0_sclk.gpio0_2 | MODE7 | OUTPUT */
 				>;
 			};
 		};
@@ -127,6 +137,27 @@
 				pinctrl-0 = <&bacon_gpiohelp_pins>;
 
 				/* declare your gpios */
+				LATCH {
+					gpio-name = "LATCH";
+					gpio = <&gpio1 5 0x00>;	/* gpio1 is gpio0 */
+					output;
+					init-high;
+				};
+
+				SERIAL {
+					gpio-name = "SERIAL";
+					gpio = <&gpio1 4 0x00>;	/* gpio1 is gpio0 */
+					output;
+					init-low;
+				};
+
+				CLOCK {
+					gpio-name = "CLOCK";
+					gpio = <&gpio1 2 0x00>;	/* gpio1 is gpio0 */
+					output;
+					init-low;
+				};
+
 				BUTTON {
 					gpio-name = "BUTTON";
 					gpio = <&gpio1 22 0x01>;	/* gpio1 is gpio0 */
