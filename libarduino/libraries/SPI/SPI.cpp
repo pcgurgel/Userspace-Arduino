@@ -56,15 +56,34 @@ void SPIClass::setBitOrder(uint8_t bOrder) {
 }
 
 void SPIClass::setDataMode(uint8_t mode) {
-  ret = ioctl(fd, SPI_IOC_WR_MODE, &mode);
-  if (ret == -1)
-	perror("SPI_IOC_WR_MODE not set");
+  if( mode == SPI_MODE0 | mode == SPI_MODE1 | mode == SPI_MODE2 | mode == SPI_MODE3)
+  {
+  	ret = ioctl(fd, SPI_IOC_WR_MODE, &mode);
+  		if (ret == -1)
+		perror("SPI_IOC_WR_MODE not set");
+  }
+  else
+  {
+ 	perror("INVALID DATA_MODE set");
+  } 
 }
 
 void SPIClass::setClockDivider(uint32_t rate) {
-  ret = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &rate);
-  if (ret == -1)
-	perror("SPI_IOC_WR_MAX_SPEED_HZ not set");
+   if( 	rate == SPI_CLOCK_DIV2 | 
+	rate == SPI_CLOCK_DIV4 | 
+	rate == SPI_CLOCK_DIV16 | 
+	rate == SPI_CLOCK_DIV32 | 
+	rate == SPI_CLOCK_DIV32 | 
+	rate == SPI_CLOCK_DIV64 | 
+	rate == SPI_CLOCK_DIV128
+	)										 //changes
+  {
+  	ret = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &rate);
+        if (ret == -1)
+		perror("SPI_IOC_WR_MAX_SPEED_HZ not set");
+  }
+  else
+  	perror("INVALID SPI_CLOCK_DIV set");
 }
 
 void SPIClass::end() {
