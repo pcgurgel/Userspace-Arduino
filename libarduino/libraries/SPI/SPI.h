@@ -16,7 +16,7 @@
 #include <inttypes.h>
 #include "linux-virtual.h"
 
-#define SPI_CLOCK_DIV4 2000000
+#define SPI_CLOCK_DIV4 0x00
 #define SPI_CLOCK_DIV16 0x01
 #define SPI_CLOCK_DIV64 0x02
 #define SPI_CLOCK_DIV128 0x03
@@ -29,8 +29,8 @@
 #define SPI_MODE2 0x08
 #define SPI_MODE3 0x0C
 
-#define LSBFIRST 0
-#define MSBFIRST 1
+#define LSBFIRST 1
+#define MSBFIRST 0
 
 class SPIClass {
 		int ret;
