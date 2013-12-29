@@ -50,8 +50,8 @@ extern "C"{
 #define SERIAL  0x0
 #define DISPLAY 0x1
 
-#define LSBFIRST 0
-#define MSBFIRST 1
+#define LSBFIRST 1
+#define MSBFIRST 0
 
 #define CHANGE 1
 #define FALLING 2
