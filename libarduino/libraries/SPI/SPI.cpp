@@ -50,6 +50,9 @@ void SPIClass::setBitOrder(uint8_t bOrder) {
   else {
 	bitOrder=MSBFIRST;
   }
+  if (ioctl (fd, SPI_IOC_WR_LSB_FIRST, &bitOrder) < 0) {
+		perror("Failed to set SPI bit justification\n");
+  }
 }
 
 void SPIClass::setDataMode(uint8_t mode) {
