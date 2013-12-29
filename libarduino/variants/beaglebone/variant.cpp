@@ -143,6 +143,7 @@ void load_cape(const char* capename)
 void init( void )
 {
   /* Load capes here */
+  load_cape("BB-SPI0-01");
   load_cape("BB-BONE-BACONE");
   /* Derive the offsets and export the GPIOs */
   for (unsigned int i = 0; i < PINS_COUNT; i += 1) {
