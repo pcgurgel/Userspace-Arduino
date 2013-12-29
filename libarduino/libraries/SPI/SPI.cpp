@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2013 by Anuj Deshpande <anujdeshpande92@gmail.com>
+ * Copyright (c) 2013 by Siddharth Bharat Purohit <sidbpurohit@gmail.com>
  * SPI Library for Userspace Arduino
  *
  * This file is free software; you can redistribute it and/or modify
