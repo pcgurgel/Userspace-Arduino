@@ -370,9 +370,9 @@ endif
 
 ########################################################################
 # Determine ARDUINO_LIBS automatically
-ARDUINO_LIBS	+=	$(ARDUINO_DIR)/libarduino/libraries/SPI
-ARDUINO_LIBS	+=	$(ARDUINO_DIR)/libarduino/libraries/Wire
-ARDUINO_LIBS	+=	$(ARDUINO_DIR)/libarduino/libraries/Stepper
+ARDUINO_LIBS	+=  $(ARDUINO_DIR)/libarduino/libraries/SPI
+ARDUINO_LIBS	+=  $(ARDUINO_DIR)/libarduino/libraries/Wire
+ARDUINO_LIBS	+=  $(ARDUINO_DIR)/libarduino/libraries/Stepper
 ARDUINO_LIBS	+=  $(ARDUINO_DIR)/libarduino/libraries/LiquidCrystal
 
 ifndef ARDUINO_LIBS
@@ -458,13 +458,14 @@ endif
 
 # Using += instead of =, so that CPPFLAGS can be set per sketch level
 CPPFLAGS      += -I. -I$(USERSPACE_CORE_PATH) -I$(USERSPACE_VAR_PATH)/$(VARIANT) \
-        $(SYS_INCLUDES) $(USER_INCLUDES) -g -Wall
+        $(SYS_INCLUDES) $(USER_INCLUDES) -g -Wall \
+        -O$(OPTIMIZATION_LEVEL)
 $(call show_config_variable,USERSPACE_CORE_PATH,[DEFAULT])
 
 CFLAGS        += $(EXTRA_FLAGS) $(EXTRA_CFLAGS)
 CXXFLAGS      += $(EXTRA_FLAGS) $(EXTRA_CXXFLAGS)
 ASFLAGS       += -I. -x assembler-with-cpp
-LDFLAGS       += -Wl,--gc-sections -lrt $(EXTRA_FLAGS) $(EXTRA_CXXFLAGS)
+LDFLAGS       += -Wl,--gc-sections -lrt $(EXTRA_FLAGS) $(EXTRA_CXXFLAGS) -O$(OPTIMIZATION_LEVEL)
 SIZEFLAGS     ?= -C
 
 ifneq (,$(strip $(ARDUINO_LIBS)))
@@ -502,22 +503,22 @@ endif
 
 # library sources
 $(OBJDIR)/libs/%.o: $(ARDUINO_LIB_PATH)/%.c
-	@$(ECHO) Compliling $@
+	@$(ECHO) Compiling $@
 	$(MKDIR) $(dir $@)
 	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/libs/%.o: $(ARDUINO_LIB_PATH)/%.cpp
-	@$(ECHO) Compliling $@
+	@$(ECHO) Compiling $@
 	$(MKDIR) $(dir $@)
 	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/libs/%.o: $(USER_LIB_PATH)/%.cpp
-	@$(ECHO) Compliling $@
+	@$(ECHO) Compiling $@
 	$(MKDIR) $(dir $@)
 	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/libs/%.o: $(USER_LIB_PATH)/%.c
-	@$(ECHO) Compliling $@
+	@$(ECHO) Compiling $@
 	$(MKDIR) $(dir $@)
 	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
@@ -546,29 +547,29 @@ $(OBJDIR)/%.o: %.s $(COMMON_DEPS) | $(OBJDIR)
 
 # the pde -> o file
 $(OBJDIR)/%.o: %.pde $(COMMON_DEPS) | $(OBJDIR)
-	@$(ECHO) Compliling $@
+	@$(ECHO) Compiling $@
 	$(Q)$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 # the ino -> o file
 $(OBJDIR)/%.o: %.ino $(COMMON_DEPS) | $(OBJDIR)
-	@$(ECHO) Compliling $@
+	@$(ECHO) Compiling $@
 	$(Q)$(CXX) -x c++ -include linux-virtual.h -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 # generated assembly
 $(OBJDIR)/%.s: %.pde $(COMMON_DEPS) | $(OBJDIR)
-	@$(ECHO) Compliling $@
+	@$(ECHO) Compiling $@
 	$(Q)$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/%.s: %.ino $(COMMON_DEPS) | $(OBJDIR)
-	@$(ECHO) Compliling $@
+	@$(ECHO) Compiling $@
 	$(Q)$(CXX) -x c++ -include linux-virtual.h -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 # variants
 $(OBJDIR)/%.o: $(USERSPACE_VAR_PATH)/%.c $(COMMON_DEPS) | $(OBJDIR)
-	@$(ECHO) Compliling $@
+	@$(ECHO) Compiling $@
 	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 $(OBJDIR)/%.o: $(USERSPACE_VAR_PATH)/%.cpp $(COMMON_DEPS) | $(OBJDIR)
-	@$(ECHO) Compliling $@
+	@$(ECHO) Compiling $@
 	$(Q)$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 #$(OBJDIR)/%.lst: $(OBJDIR)/%.s
@@ -576,11 +577,11 @@ $(OBJDIR)/%.o: $(USERSPACE_VAR_PATH)/%.cpp $(COMMON_DEPS) | $(OBJDIR)
 
 # core files
 $(OBJDIR)/%.o: $(USERSPACE_CORE_PATH)/%.c $(COMMON_DEPS) | $(OBJDIR)
-	@$(ECHO) Compliling $@
+	@$(ECHO) Compiling $@
 	$(Q)$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/%.o: $(USERSPACE_CORE_PATH)/%.cpp $(COMMON_DEPS) | $(OBJDIR)
-	@$(ECHO) Compliling $@
+	@$(ECHO) Compiling $@
 	$(Q)$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 
@@ -609,7 +610,7 @@ $(OBJDIR):
 		$(MKDIR) $(OBJDIR)
 
 $(TARGET_ELF): 	$(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS)
-		@$(ECHO) Compliling $@
+		@$(ECHO) Compiling $@
 		$(Q)$(CXX) $(LDFLAGS) -o $@ $(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS)
 		@$(ECHO) Build of $(TARGET) complete!
 		@$(ECHO)
