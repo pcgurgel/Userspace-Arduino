@@ -62,6 +62,8 @@ Execute code
 
 You will now see USR LED 1 blinking at one second intervals. Press Ctrl-C to break from the loop. 	
 
+## PinMap
+The project uses the pin map found [here](http://www.elinux.org/Userspace_Arduino#Beaglebone_Black)
 ## About
 
 This project will be worked upon by two students, Parav and Anuj; David Anders,
