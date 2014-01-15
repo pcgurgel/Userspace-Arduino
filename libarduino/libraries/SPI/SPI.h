@@ -29,9 +29,6 @@
 #define SPI_MODE2 0x08
 #define SPI_MODE3 0x0C
 
-#define LSBFIRST 1
-#define MSBFIRST 0
-
 class SPIClass {
 		int ret;
 		int fd;
